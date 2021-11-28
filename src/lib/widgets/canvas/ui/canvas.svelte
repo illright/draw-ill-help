@@ -1,40 +1,32 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { fabric } from "fabric";
+	import { onMount, onDestroy } from 'svelte';
+	import { fabric } from 'fabric';
 
-  export let tool: 'Draw' | 'Select';
-  $: {
-    if (fabricCanvas !== undefined) {
-      fabricCanvas.isDrawingMode = tool === 'Draw';
-    }
-  }
+  import { autoResize, stopAutoResizing } from './resize-observer';
 
-  let container: HTMLDivElement;
-  let domCanvas: HTMLCanvasElement;
-  let fabricCanvas: fabric.Canvas;
+	export let tool: 'Draw' | 'Select';
+	$: {
+		if (fabricCanvas !== undefined) {
+			fabricCanvas.isDrawingMode = tool === 'Draw';
+		}
+	}
 
-  export function clear() {
-    fabricCanvas.clear();
-  }
+	let container: HTMLDivElement;
+	let domCanvas: HTMLCanvasElement;
+	let fabricCanvas: fabric.Canvas;
 
-  function enableDrawMode() {
-    fabricCanvas.isDrawingMode = true;
-  }
+	export function clear() {
+		fabricCanvas.clear();
+	}
 
-  function enableExploreMode() {
-    fabricCanvas.isDrawingMode = false;
-  }
+	onMount(() => {
+		fabricCanvas = new fabric.Canvas(domCanvas);
+    autoResize(fabricCanvas, container);
+	});
 
-  onMount(() => {
-    const { width, height } = container.getBoundingClientRect();
-    fabricCanvas = new fabric.Canvas(domCanvas, {
-      width,
-      height,
-      isDrawingMode: true,
-    });
-  });
+	onDestroy(stopAutoResizing);
 </script>
 
-<div class="flex flex-col h-full" bind:this={container}>
-  <canvas class="w-full" bind:this={domCanvas} />
+<div class="h-full" bind:this={container}>
+	<canvas bind:this={domCanvas} />
 </div>
