@@ -1,4 +1,5 @@
 import preprocess from 'svelte-preprocess';
+import Icons from 'unplugin-icons/vite';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -11,7 +12,14 @@ const config = {
 	],
 
 	kit: {
-		target: 'body'
+		target: 'body',
+		vite: {
+			plugins: [
+				Icons({
+					compiler: 'svelte'
+				})
+			]
+		}
 	}
 };
 
