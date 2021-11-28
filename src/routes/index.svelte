@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Canvas } from '$lib/widgets/canvas';
+  import { IndexPage } from '$lib/pages/index';
 </script>
 
-<Canvas />
+<IndexPage />
