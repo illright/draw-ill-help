@@ -3,30 +3,52 @@
 	import { fabric } from 'fabric';
 
   import { autoResize, stopAutoResizing } from './resize-observer';
+	import { replayLastObject } from '../model/replay-last-object';
 
 	export let tool: 'Draw' | 'Select';
 	$: {
-		if (fabricCanvas !== undefined) {
-			fabricCanvas.isDrawingMode = tool === 'Draw';
+		if (fabricRealCanvas !== undefined) {
+			fabricRealCanvas.isDrawingMode = tool === 'Draw';
 		}
 	}
 
-	let container: HTMLDivElement;
-	let domCanvas: HTMLCanvasElement;
-	let fabricCanvas: fabric.Canvas;
+	let container: HTMLDivElement | undefined;
+	let domRealCanvas: HTMLCanvasElement | undefined;
+	let domOffScreenCanvas: HTMLCanvasElement | undefined;
+	let fabricRealCanvas: fabric.Canvas | undefined;
+	let fabricOffScreenCanvas: fabric.Canvas | undefined;
 
 	export function clear() {
-		fabricCanvas.clear();
+		fabricRealCanvas?.clear();
 	}
 
 	onMount(() => {
-		fabricCanvas = new fabric.Canvas(domCanvas);
-    autoResize(fabricCanvas, container);
+		if (domRealCanvas === undefined || domOffScreenCanvas === undefined) {
+			return;
+		}
+
+		fabricRealCanvas = new fabric.Canvas(domRealCanvas);
+		fabricOffScreenCanvas = new fabric.Canvas(domOffScreenCanvas, {
+			skipOffscreen: false,
+		});
+		fabricRealCanvas.on('object:added', e => {
+			if (fabricRealCanvas !== undefined && fabricOffScreenCanvas !== undefined) {
+				replayLastObject(e.target, fabricRealCanvas, fabricOffScreenCanvas);
+			}
+		});
+
+		if (container !== undefined) {
+			autoResize([fabricRealCanvas, fabricOffScreenCanvas], container);
+		}
 	});
 
 	onDestroy(stopAutoResizing);
 </script>
 
 <div class="h-full" bind:this={container}>
-	<canvas bind:this={domCanvas} />
+	<canvas bind:this={domRealCanvas} />
+</div>
+
+<div class="sr-only">
+  <canvas bind:this={domOffScreenCanvas} />
 </div>
