@@ -27,9 +27,13 @@
 			return;
 		}
 
-		fabricRealCanvas = new fabric.Canvas(domRealCanvas);
+		fabricRealCanvas = new fabric.Canvas(domRealCanvas, {
+			enableRetinaScaling: false,
+		});
+		fabricRealCanvas.freeDrawingBrush.width = 4;
 		fabricOffScreenCanvas = new fabric.Canvas(domOffScreenCanvas, {
 			skipOffscreen: false,
+			enableRetinaScaling: false,
 		});
 		fabricRealCanvas.on('object:added', e => {
 			if (fabricRealCanvas !== undefined && fabricOffScreenCanvas !== undefined) {
