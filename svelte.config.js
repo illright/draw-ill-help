@@ -4,23 +4,23 @@ import adapterStatic from '@sveltejs/adapter-static';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	preprocess: [
-		preprocess({
-			postcss: true
-		})
-	],
+  preprocess: [
+    preprocess({
+      postcss: true,
+    }),
+  ],
 
-	kit: {
-		target: 'body',
-		adapter: adapterStatic(),
-		vite: {
-			plugins: [
-				Icons({
-					compiler: 'svelte'
-				})
-			]
-		}
-	}
+  kit: {
+    target: 'body',
+    adapter: adapterStatic(),
+    vite: {
+      plugins: [
+        Icons({
+          compiler: 'svelte',
+        }),
+      ],
+    },
+  },
 };
 
 export default config;
