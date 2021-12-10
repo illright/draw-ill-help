@@ -12,6 +12,7 @@
 	},
 	"devDependencies": {
 		"@iconify-json/bx": "^1.0.1",
+		"@sveltejs/adapter-static": "^1.0.0-next.21",
 		"@sveltejs/kit": "next",
 		"@types/fabric": "^4.5.5",
 		"@typescript-eslint/eslint-plugin": "^4.31.1",
