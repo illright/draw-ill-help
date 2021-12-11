@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import IconPencil from '~icons/bx/bx-pencil';
   import IconPointer from '~icons/bx/bx-pointer';
   import IconTrash from '~icons/bx/bx-trash';
 
   import { Canvas, extractLastDrawing } from '$lib/widgets/canvas';
   import { Toolbar, Tool, Action } from '$lib/widgets/toolbar';
+  import { detectShape, yolov5 } from '$lib/features/detect-shapes';
 
   let canvas: Canvas;
   let currentTool: 'Draw' | 'Select' = 'Draw';
@@ -12,6 +14,8 @@
   $: {
     canvas?.setDrawingMode(currentTool === 'Draw');
   }
+
+  onMount(() => yolov5.preload());
 </script>
 
 <div class="w-full h-screen relative">
@@ -20,10 +24,12 @@
     on:object-added={async ({ detail }) => {
       const object = detail.originalEvent.target;
       if (detail.fabricRealCanvas !== undefined && detail.fabricOffScreenCanvas !== undefined) {
-        await extractLastDrawing(object, detail.fabricRealCanvas, detail.fabricOffScreenCanvas);
+        const lastDrawing = await extractLastDrawing(object, detail.fabricRealCanvas, detail.fabricOffScreenCanvas);
+        if (lastDrawing !== null) {
+          const [image, bbox] = lastDrawing;
+          const shape = detectShape(image, bbox);
+        }
         object.excludeFromExport = true;
-
-        // make predictions here
       }
     }}
   />
