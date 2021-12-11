@@ -33,7 +33,7 @@ export async function extractLastDrawing(
   object: Path,
   fromCanvas: fabric.Canvas,
   toCanvas: fabric.Canvas
-): Promise<[HTMLCanvasElement, BBox] | null> {
+): Promise<[HTMLCanvasElement, BBox, BBox] | null> {
   if (object === undefined) {
     return null;
   }
@@ -49,7 +49,7 @@ export async function extractLastDrawing(
     const croppedCanvas = crop(toCanvas.getElement(), regionAroundObject);
 
     if (croppedCanvas !== null) {
-      return [croppedCanvas, bboxInScaledRegion];
+      return [croppedCanvas, bboxInScaledRegion, regionAroundObject];
     }
   }
 

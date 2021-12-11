@@ -4,7 +4,7 @@ import type { GraphModel, Tensor, Rank } from '@tensorflow/tfjs';
 import type { classes } from './classes';
 import type { RelativeBBox } from '$lib/entities/bounding-box';
 
-const CONFIDENCE_THRESHOLD = 0.5;
+const CONFIDENCE_THRESHOLD = 0.8;
 
 export interface Prediction {
   bbox: RelativeBBox;
@@ -77,4 +77,4 @@ class YOLOv5 {
   }
 }
 
-export const yolov5 = new YOLOv5('http://localhost:3000/model.json', CONFIDENCE_THRESHOLD);
+export const yolov5 = new YOLOv5('/model.json', CONFIDENCE_THRESHOLD);

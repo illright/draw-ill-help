@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fabric } from 'fabric';
   import { onMount } from 'svelte';
   import IconPencil from '~icons/bx/bx-pencil';
   import IconPointer from '~icons/bx/bx-pointer';
@@ -23,11 +24,21 @@
     bind:this={canvas}
     on:object-added={async ({ detail }) => {
       const object = detail.originalEvent.target;
+      if (!(object instanceof fabric.Path)) {
+        return;
+      }
+
       if (detail.fabricRealCanvas !== undefined && detail.fabricOffScreenCanvas !== undefined) {
         const lastDrawing = await extractLastDrawing(object, detail.fabricRealCanvas, detail.fabricOffScreenCanvas);
         if (lastDrawing !== null) {
-          const [image, bbox] = lastDrawing;
-          const shape = detectShape(image, bbox);
+          const [image, _bbox, regionBBox] = lastDrawing;
+          const shape = await detectShape(image, regionBBox);
+
+          if (shape !== null) {
+            detail.fabricRealCanvas.add(shape);
+            detail.fabricRealCanvas.remove(object);
+            return;
+          }
         }
         object.excludeFromExport = true;
       }
