@@ -4,3 +4,5 @@ node_modules
 /.svelte-kit
 /package
 .env
+static/*.bin
+static/model.json
