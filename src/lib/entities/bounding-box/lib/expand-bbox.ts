@@ -1,6 +1,6 @@
 import type { BBox } from '../model/type';
 
-export function expandBBox(bbox: BBox, factor: number) {
+export function expandBBox(bbox: BBox, factor: number): BBox {
   const [left, top, width, height] = bbox;
 
   return [

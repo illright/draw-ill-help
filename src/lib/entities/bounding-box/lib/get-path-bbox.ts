@@ -2,7 +2,7 @@ import type { Path } from 'fabric/fabric-impl';
 
 import type { BBox } from '../model/type';
 
-export function getPathBBox(pathObject: Path) {
+export function getPathBBox(pathObject: Path): BBox | undefined {
   const { left, top, width, height, strokeWidth } = pathObject;
   if (
     left === undefined ||

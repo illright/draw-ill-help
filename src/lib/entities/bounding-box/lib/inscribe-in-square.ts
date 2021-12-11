@@ -1,6 +1,6 @@
 import type { BBox } from '../model/type';
 
-export function inscribeInSquare(bbox: BBox) {
+export function inscribeInSquare(bbox: BBox): BBox {
   const [left, top, width, height] = bbox;
   const centerPoint = [left + width / 2, top + height / 2];
   const largerSide = Math.max(width, height);
