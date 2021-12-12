@@ -1,9 +1,9 @@
 {
-  "name": "cvdl-project",
+  "name": "draw-ill-help",
   "version": "0.0.1",
   "scripts": {
     "dev": "svelte-kit dev",
-    "build": "svelte-kit build",
+    "build": "svelte-kit build && sed -i 's/\\/service-worker\\.js/\\/cvdl-project\\/service-worker.js/g' build/index.html build/**/index.html",
     "preview": "svelte-kit preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
