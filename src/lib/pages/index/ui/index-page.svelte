@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fabric } from 'fabric';
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount } from 'svelte';
   import IconPencil from '~icons/bx/bx-pencil';
   import IconPointer from '~icons/bx/bx-pointer';
   import IconTrash from '~icons/bx/bx-trash';
@@ -11,47 +11,19 @@
 
   let canvas: Canvas;
   let currentTool: 'Draw' | 'Select' = 'Draw';
-  let darkColorsMedia: MediaQueryList | undefined;
-  let backgroundColor = '#ffffff';
-  let foregroundColor = '#000000';
 
   $: {
     canvas?.setDrawingMode(currentTool === 'Draw');
   }
 
-  function switchToDarkTheme(e: MediaQueryListEvent | MediaQueryList) {
-    const html = document.querySelector('html');
-
-    if (html !== null) {
-      const cssVars = getComputedStyle(html);
-
-      if (e.matches) {
-        backgroundColor = cssVars.getPropertyValue('--canvas-dark-bg');
-        foregroundColor = cssVars.getPropertyValue('--canvas-dark-fg');
-      } else {
-        backgroundColor = cssVars.getPropertyValue('--canvas-light-bg');
-        foregroundColor = cssVars.getPropertyValue('--canvas-light-fg');
-      }
-    }
-  }
-
   onMount(() => {
     // yolov5.preload()
-    darkColorsMedia = window.matchMedia('(prefers-color-scheme: dark)');
-    darkColorsMedia.addEventListener('change', switchToDarkTheme);
-    switchToDarkTheme(darkColorsMedia);
-  });
-
-  onDestroy(() => {
-    darkColorsMedia?.removeEventListener('change', switchToDarkTheme);
   });
 </script>
 
 <div class="w-full h-screen relative">
   <Canvas
     bind:this={canvas}
-    {backgroundColor}
-    {foregroundColor}
     on:object-added={async ({ detail }) => {
       const object = detail.originalEvent.target;
       if (!(object instanceof fabric.Path)) {
@@ -65,7 +37,6 @@
           const shape = await detectShape(image, regionBBox);
 
           if (shape !== null) {
-            shape.stroke = foregroundColor;
             detail.fabricRealCanvas.add(shape);
             detail.fabricRealCanvas.remove(object);
             return;

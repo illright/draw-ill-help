@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
   import { fabric } from 'fabric';
   import IconCircle from '~icons/bx/bx-circle';
   import IconSquare from '~icons/bx/bx-square';
@@ -18,9 +17,6 @@
   } from '$lib/features/generate-dataset';
 
   let currentTool: SampleClass = 'Circle';
-  let darkColorsMedia: MediaQueryList | undefined;
-  let backgroundColor = '#ffffff';
-  let foregroundColor = '#000000';
 
   async function addObjectToDataset({ detail }: any) {
     const object = detail.originalEvent.target;
@@ -46,38 +42,10 @@
     exportData($dataset);
     dataset.set([]);
   }
-
-  function switchToDarkTheme(e: MediaQueryListEvent | MediaQueryList) {
-    const html = document.querySelector('html');
-
-    if (html !== null) {
-      const cssVars = getComputedStyle(html);
-
-      if (e.matches) {
-        backgroundColor = cssVars.getPropertyValue('--canvas-dark-bg');
-        foregroundColor = cssVars.getPropertyValue('--canvas-dark-fg');
-      } else {
-        backgroundColor = cssVars.getPropertyValue('--canvas-light-bg');
-        foregroundColor = cssVars.getPropertyValue('--canvas-light-fg');
-      }
-    }
-  }
-
-  onMount(() => {
-    darkColorsMedia = window.matchMedia('(prefers-color-scheme: dark)');
-    darkColorsMedia.addEventListener('change', switchToDarkTheme);
-    switchToDarkTheme(darkColorsMedia);
-  });
-
-  onDestroy(() => {
-    darkColorsMedia?.removeEventListener('change', switchToDarkTheme);
-  });
 </script>
 
 <div class="w-full h-screen relative">
   <Canvas
-    {backgroundColor}
-    {foregroundColor}
     on:object-added={addObjectToDataset}
   />
   <Toolbar>
