@@ -6,6 +6,8 @@ import Icons from 'unplugin-icons/vite';
 import adapterStatic from '@sveltejs/adapter-static';
 
 const dev = process.env.NODE_ENV === 'development';
+const repositoryName = path.basename(cwd());
+const base = dev ? '' : `/${repositoryName}`;
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -16,12 +18,13 @@ const config = {
   ],
 
   kit: {
-    paths: {
-      base: dev ? '' : `/${path.basename(cwd())}`,
-    },
+    paths: { base },
     target: 'body',
     adapter: adapterStatic(),
     vite: {
+      define: {
+        'vite.define.basePath': JSON.stringify(base),
+      },
       plugins: [
         Icons({
           compiler: 'svelte',

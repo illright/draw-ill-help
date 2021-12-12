@@ -77,4 +77,4 @@ class YOLOv5 {
   }
 }
 
-export const yolov5 = new YOLOv5('/model.json', CONFIDENCE_THRESHOLD);
+export const yolov5 = new YOLOv5(`${vite.define.basePath}/model.json`, CONFIDENCE_THRESHOLD);
