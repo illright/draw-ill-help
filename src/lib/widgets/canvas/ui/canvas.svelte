@@ -4,6 +4,9 @@
 
   import { autoResize, stopAutoResizing } from './resize-observer';
 
+  export let backgroundColor: string;
+  export let foregroundColor: string;
+
   let container: HTMLDivElement | undefined;
   let domRealCanvas: HTMLCanvasElement | undefined;
   let domOffScreenCanvas: HTMLCanvasElement | undefined;
@@ -12,6 +15,7 @@
 
   export function clear() {
     fabricRealCanvas?.clear();
+    fabricRealCanvas?.setBackgroundColor(backgroundColor, () => {});
   }
 
   export function setDrawingMode(mode: boolean) {
@@ -21,6 +25,7 @@
   }
 
   onMount(() => {
+
     if (domRealCanvas === undefined || domOffScreenCanvas === undefined) {
       return;
     }
@@ -28,8 +33,10 @@
     fabricRealCanvas = new fabric.Canvas(domRealCanvas, {
       enableRetinaScaling: false,
       isDrawingMode: true,
+      backgroundColor,
     });
     fabricRealCanvas.freeDrawingBrush.width = 4;
+    fabricRealCanvas.freeDrawingBrush.color = foregroundColor;
     fabricOffScreenCanvas = new fabric.Canvas(domOffScreenCanvas, {
       skipOffscreen: false,
       enableRetinaScaling: false,
@@ -42,6 +49,14 @@
       autoResize([fabricRealCanvas, fabricOffScreenCanvas], container);
     }
   });
+
+  $: {
+    if (fabricRealCanvas !== undefined) {
+      console.log(backgroundColor);
+      fabricRealCanvas.freeDrawingBrush.color = foregroundColor;
+      fabricRealCanvas.setBackgroundColor(backgroundColor, () => {});
+    }
+  }
 
   onDestroy(stopAutoResizing);
   const dispatch = createEventDispatcher<any>();

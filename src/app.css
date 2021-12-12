@@ -2,3 +2,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --canvas-light-bg: #ffffff;
+  --canvas-light-fg: #000000;
+
+  --canvas-dark-bg: #22272e;
+  --canvas-dark-fg: #adbac7;
+
+  --canvas-bg: var(--canvas-light-bg);
+  --canvas-fg: var(--canvas-light-fg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas-bg: var(--canvas-dark-bg);
+    --canvas-fg: var(--canvas-dark-fg);
+  }
+}

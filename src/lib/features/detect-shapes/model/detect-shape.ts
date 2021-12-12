@@ -22,7 +22,6 @@ export async function detectShape(canvas: HTMLCanvasElement, regionBBox: BBox): 
       top,
       ...size,
       fill: 'transparent',
-      stroke: 'black',
       strokeWidth: 4,
     });
     return correctedObject;
