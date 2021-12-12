@@ -7,7 +7,7 @@
 
   import { Canvas, extractLastDrawing } from '$lib/widgets/canvas';
   import { Toolbar, Tool, Action } from '$lib/widgets/toolbar';
-  import { detectShape, yolov5 } from '$lib/features/detect-shapes';
+  import { detectShape, yolov5 } from '$lib/features/detect-shape';
 
   let canvas: Canvas;
   let currentTool: 'Draw' | 'Select' = 'Draw';
