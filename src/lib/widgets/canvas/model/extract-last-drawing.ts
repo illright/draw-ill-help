@@ -31,14 +31,24 @@ function crop(sourceCanvas: HTMLCanvasElement, sourcePosition: BBox) {
 
 export async function extractLastDrawing(
   object: Path,
-  fromCanvas: fabric.Canvas,
   toCanvas: fabric.Canvas
 ): Promise<[HTMLCanvasElement, BBox, BBox] | null> {
   if (object === undefined) {
     return null;
   }
 
-  await new Promise((resolve) => toCanvas.loadFromJSON(fromCanvas.toJSON(), resolve));
+  const objectCopy = object.toObject();
+  objectCopy.stroke = '#000';
+
+  await new Promise((resolve) =>
+    toCanvas.loadFromJSON(
+      {
+        objects: [objectCopy],
+        background: '#fff',
+      },
+      resolve
+    )
+  );
   toCanvas.renderAll();
 
   const bbox = getPathBBox(object);

@@ -24,7 +24,7 @@
   <Canvas
     bind:this={canvas}
     on:object-drawn={async ({ detail: { object, fabricReal, fabricOffScreen } }) => {
-      const lastDrawing = await extractLastDrawing(object, fabricReal, fabricOffScreen);
+      const lastDrawing = await extractLastDrawing(object, fabricOffScreen);
       if (lastDrawing !== null) {
         const [image, _bbox, regionBBox] = lastDrawing;
         const shape = await detectShape(image, regionBBox);

@@ -21,7 +21,6 @@
   async function addObjectToDataset({ detail: { object, fabricReal, fabricOffScreen } }: any) {
     const lastObject = await extractLastDrawing(
       object,
-      fabricReal,
       fabricOffScreen
     );
     if (lastObject !== null) {
