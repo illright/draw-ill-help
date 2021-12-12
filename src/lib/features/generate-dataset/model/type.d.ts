@@ -1,4 +1,4 @@
-export type SampleClass = 'Circle' | 'Rectangle';
+export type SampleClass = 'Circle' | 'Rectangle' | 'Nothing';
 
 export interface Sample {
   data: Blob;

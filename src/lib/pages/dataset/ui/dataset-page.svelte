@@ -1,9 +1,11 @@
 <script lang="ts">
+  import { onMount, onDestroy } from 'svelte';
+  import { fabric } from 'fabric';
   import IconCircle from '~icons/bx/bx-circle';
   import IconSquare from '~icons/bx/bx-square';
+  import IconBlock from '~icons/bx/bx-block';
   import IconDownload from '~icons/bx/bx-download';
   import IconUndo from '~icons/bx/bx-undo';
-  import { fabric } from 'fabric';
 
   import { Canvas, extractLastDrawing } from '$lib/widgets/canvas';
   import { Toolbar, Tool, Action } from '$lib/widgets/toolbar';
@@ -16,6 +18,9 @@
   } from '$lib/features/generate-dataset';
 
   let currentTool: SampleClass = 'Circle';
+  let darkColorsMedia: MediaQueryList | undefined;
+  let backgroundColor = '#ffffff';
+  let foregroundColor = '#000000';
 
   async function addObjectToDataset({ detail }: any) {
     const object = detail.originalEvent.target;
@@ -41,13 +46,44 @@
     exportData($dataset);
     dataset.set([]);
   }
+
+  function switchToDarkTheme(e: MediaQueryListEvent | MediaQueryList) {
+    const html = document.querySelector('html');
+
+    if (html !== null) {
+      const cssVars = getComputedStyle(html);
+
+      if (e.matches) {
+        backgroundColor = cssVars.getPropertyValue('--canvas-dark-bg');
+        foregroundColor = cssVars.getPropertyValue('--canvas-dark-fg');
+      } else {
+        backgroundColor = cssVars.getPropertyValue('--canvas-light-bg');
+        foregroundColor = cssVars.getPropertyValue('--canvas-light-fg');
+      }
+    }
+  }
+
+  onMount(() => {
+    darkColorsMedia = window.matchMedia('(prefers-color-scheme: dark)');
+    darkColorsMedia.addEventListener('change', switchToDarkTheme);
+    switchToDarkTheme(darkColorsMedia);
+  });
+
+  onDestroy(() => {
+    darkColorsMedia?.removeEventListener('change', switchToDarkTheme);
+  });
 </script>
 
 <div class="w-full h-screen relative">
-  <Canvas on:object-added={addObjectToDataset} />
+  <Canvas
+    {backgroundColor}
+    {foregroundColor}
+    on:object-added={addObjectToDataset}
+  />
   <Toolbar>
     <Tool toolName="Circle" icon={IconCircle} bind:group={currentTool} />
     <Tool toolName="Rectangle" icon={IconSquare} bind:group={currentTool} />
+    <Tool toolName="Nothing" icon={IconBlock} bind:group={currentTool} />
     <Action
       actionName="Download dataset"
       icon={IconDownload}

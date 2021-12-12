@@ -1,30 +1,53 @@
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 
-import type { Sample } from './type';
+import type { Sample, SampleClass } from './type';
+
+/**
+ * The annotation format of Supervisely.
+ *
+ * **Note**: this type is not representative
+ * of the actual annotation format, it is only a subset
+ * that is sufficient for the current task.
+ */
+interface SuperviselyAnnotation {
+  size: {
+    width: number;
+    height: number;
+  };
+  objects: Array<{
+    labelerLogin: string;
+    geometryType: 'rectangle';
+    classTitle: SampleClass;
+    points: {
+      exterior: Array<[number, number]>;
+      interior: Array<[number, number]>;
+    };
+  }>;
+}
 
 function buildAnnotation(sample: Sample): string {
-  return JSON.stringify(
-    {
+  const annotation: SuperviselyAnnotation = {
       size: {
         height: 416,
         width: 416,
       },
-      objects: [
-        {
-          labelerLogin: 'illright',
-          geometryType: 'rectangle',
-          classTitle: sample.className,
-          points: {
-            exterior: sample.coordinates,
-            interior: [],
-          },
-        },
-      ],
-    },
-    null,
-    2
-  );
+      objects: [],
+    };
+
+  if (sample.className !== 'Nothing') {
+    annotation.objects.push({
+      labelerLogin: '_',
+      geometryType: 'rectangle',
+      classTitle: sample.className,
+      points: {
+        exterior: sample.coordinates,
+        interior: [],
+      },
+    });
+  }
+
+  return JSON.stringify(annotation, null, 2);
 }
 
 export async function exportData($dataset: Sample[]): Promise<void> {

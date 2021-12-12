@@ -44,7 +44,7 @@
 
   onDestroy(() => {
     darkColorsMedia?.removeEventListener('change', switchToDarkTheme);
-  })
+  });
 </script>
 
 <div class="w-full h-screen relative">
