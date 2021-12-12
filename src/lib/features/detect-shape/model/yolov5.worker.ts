@@ -4,7 +4,7 @@ import type { GraphModel, Tensor, Rank } from '@tensorflow/tfjs';
 import type { classes } from './classes';
 import type { RelativeBBox } from '$lib/entities/bounding-box';
 
-const CONFIDENCE_THRESHOLD = 0.8;
+const CONFIDENCE_THRESHOLD = 0.67;
 
 export interface Prediction {
   bbox: RelativeBBox;
