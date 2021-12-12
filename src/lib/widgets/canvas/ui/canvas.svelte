@@ -59,11 +59,20 @@
       skipOffscreen: false,
       enableRetinaScaling: false,
     });
-    fabricRealCanvas.on('object:added', (e) => {
-      if (e.target !== undefined) {
-        e.target.stroke = foregroundColor;
+    fabricRealCanvas.on('object:added', ({ target: newObject }) => {
+      if (newObject instanceof fabric.Path) {
+        if (fabricRealCanvas !== undefined && fabricOffScreenCanvas !== undefined) {
+          dispatch('object-drawn', {
+            object: newObject,
+            fabricReal: fabricRealCanvas,
+            fabricOffScreen: fabricOffScreenCanvas,
+          });
+        }
+      } else {
+        if (newObject !== undefined) {
+          newObject.stroke = foregroundColor;
+        }
       }
-      dispatch('object-added', { originalEvent: e, fabricRealCanvas, fabricOffScreenCanvas });
     });
 
     if (container !== undefined) {

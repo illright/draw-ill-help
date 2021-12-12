@@ -18,23 +18,16 @@
 
   let currentTool: SampleClass = 'Circle';
 
-  async function addObjectToDataset({ detail }: any) {
-    const object = detail.originalEvent.target;
-    if (!(object instanceof fabric.Path)) {
-      return;
-    }
-
-    if (detail.fabricRealCanvas !== undefined && detail.fabricOffScreenCanvas !== undefined) {
-      const lastObject = await extractLastDrawing(
-        object,
-        detail.fabricRealCanvas,
-        detail.fabricOffScreenCanvas
-      );
-      if (lastObject !== null) {
-        const [canvas, bbox] = lastObject;
-        addImage(canvas, bbox, currentTool);
-        setTimeout(() => detail.fabricRealCanvas.remove(object), 500);
-      }
+  async function addObjectToDataset({ detail: { object, fabricReal, fabricOffScreen } }: any) {
+    const lastObject = await extractLastDrawing(
+      object,
+      fabricReal,
+      fabricOffScreen
+    );
+    if (lastObject !== null) {
+      const [canvas, bbox] = lastObject;
+      addImage(canvas, bbox, currentTool);
+      setTimeout(() => fabricReal.remove(object), 500);
     }
   }
 
@@ -46,7 +39,7 @@
 
 <div class="w-full h-screen relative">
   <Canvas
-    on:object-added={addObjectToDataset}
+    on:object-drawn={addObjectToDataset}
   />
   <Toolbar>
     <Tool toolName="Circle" icon={IconCircle} bind:group={currentTool} />
