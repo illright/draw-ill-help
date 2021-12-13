@@ -13,7 +13,7 @@
     rounded-md
     w-12 h-12
     flex justify-center items-center
-    bg-opacity-80 bg-purple-800 hover:bg-opacity-80 hover:bg-purple-700
+    bg-opacity-80 bg-blue-800 hover:bg-opacity-80 hover:bg-blue-700
     disabled:bg-gray-400 disabled:cursor-not-allowed
   "
   title={actionName}
