@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Draw, I'll Help</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/draw-ill-help/FlatColorIconsPicture.svg" type="image/svg+xml" data-svelte="svelte-22sk1j">
+
+		
+
+		<link rel="modulepreload" href="/draw-ill-help/_app/start-b1cc46ba.js">
+		<link rel="modulepreload" href="/draw-ill-help/_app/chunks/vendor-4fd8af32.js">
+		<link rel="modulepreload" href="/draw-ill-help/_app/chunks/singletons-12a22614.js">
+		<link rel="modulepreload" href="/draw-ill-help/_app/pages/__layout.svelte-1f0cee31.js">
+		<link rel="modulepreload" href="/draw-ill-help/_app/chunks/classes-ea0002a8.js">
+		<link rel="modulepreload" href="/draw-ill-help/_app/pages/draw.svelte-f462d2c3.js">
+		<link rel="modulepreload" href="/draw-ill-help/_app/chunks/action-28bbd5ea.js">
+		<link rel="stylesheet" href="/draw-ill-help/_app/assets/start-464e9d0a.css">
+		<link rel="stylesheet" href="/draw-ill-help/_app/assets/pages/__layout.svelte-e505c229.css">
+
+		<script type="module">
+			import { start } from "/draw-ill-help/_app/start-b1cc46ba.js";
+			start({
+				target: document.querySelector("body"),
+				paths: {"base":"/draw-ill-help","assets":""},
+				session: {},
+				host: location.host,
+				route: true,
+				spa: false,
+				trailing_slash: "never",
+				hydrate: {
+					status: 200,
+					error: null,
+					nodes: [
+						import("/draw-ill-help/_app/pages/__layout.svelte-1f0cee31.js"),
+						import("/draw-ill-help/_app/pages/draw.svelte-f462d2c3.js")
+					],
+					page: {
+						host: location.host, // TODO this is redundant
+						path: "\u002Fdraw",
+						query: new URLSearchParams(""),
+						params: {}
+					}
+				}
+			});
+		</script><script>
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('/draw-ill-help/service-worker.js');
+			}
+		</script>
+  </head>
+  <body>
+    
+
+
+
+
+<div class="w-full h-screen relative"><div class="h-full"><canvas></canvas></div>
+
+<div class="sr-only"><canvas></canvas></div>
+  <div class="p-1 rounded-lg absolute left-1/2 bottom-2 -translate-x-1/2 grid grid-flow-col grid-rows-1 gap-1 bg-black bg-opacity-20 text-gray-500 "><button class="relative rounded-md w-12 h-12 flex justify-center items-center bg-opacity-80 bg-blue-800 hover:bg-opacity-80 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed " title="Go to the home page" ><svg width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="w-6 h-6 text-white"><!-- HTML_TAG_START --><path d="M21 11H6.414l5.293-5.293l-1.414-1.414L2.586 12l7.707 7.707l1.414-1.414L6.414 13H21z" fill="currentColor"/><!-- HTML_TAG_END --></svg>
+  </button>
+    <label class="rounded-md w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-opacity-20 hover:bg-black  text-blue-700" title="Draw"><input type="radio" name="toolbar" value="Draw" aria-label="Draw" class="sr-only" checked>
+  <svg width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="w-6 h-6"><!-- HTML_TAG_START --><path d="M4 21a1 1 0 0 0 .24 0l4-1a1 1 0 0 0 .47-.26L21 7.41a2 2 0 0 0 0-2.82L19.42 3a2 2 0 0 0-2.83 0L4.3 15.29a1.06 1.06 0 0 0-.27.47l-1 4A1 1 0 0 0 3.76 21A1 1 0 0 0 4 21zM18 4.41L19.59 6L18 7.59L16.42 6zM5.91 16.51L15 7.41L16.59 9l-9.1 9.1l-2.11.52z" fill="currentColor"/><!-- HTML_TAG_END --></svg></label>
+    <label class="rounded-md w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-opacity-20 hover:bg-black" title="Select"><input type="radio" name="toolbar" value="Select" aria-label="Select" class="sr-only">
+  <svg width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="w-6 h-6"><!-- HTML_TAG_START --><path d="M20.978 13.21a1 1 0 0 0-.396-1.024l-14-10a.999.999 0 0 0-1.575.931l2 17a1 1 0 0 0 1.767.516l3.612-4.416l3.377 5.46l1.701-1.052l-3.357-5.428l6.089-1.218a.995.995 0 0 0 .782-.769zm-8.674.31a1 1 0 0 0-.578.347l-3.008 3.677L7.257 5.127l10.283 7.345l-5.236 1.048z" fill="currentColor"/><!-- HTML_TAG_END --></svg></label>
+    <button class="relative rounded-md w-12 h-12 flex justify-center items-center bg-opacity-80 bg-blue-800 hover:bg-opacity-80 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed " title="Clear canvas" ><svg width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="w-6 h-6 text-white"><!-- HTML_TAG_START --><path d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h2V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h2zM9 4h6v2H9zM8 8h9v12H7V8z" fill="currentColor"/><path d="M9 10h2v8H9zm4 0h2v8h-2z" fill="currentColor"/><!-- HTML_TAG_END --></svg>
+  </button></div></div>
+
+
+
+			
+		
+  </body>
+</html>
