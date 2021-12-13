@@ -1,26 +1,54 @@
-# CVDL Project: Shape correction
+# Draw, I'll Help
 
-This project was created by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte);
+A progressive web application for drawing that automatically corrects hand-drawn circles and rectangles with the power of YOLOv5.
 
-## Developing
+Check it out at <https://illright.github.io/draw-ill-help>.
 
-Use `pnpm install` to install the dependencies first, and then start a development server:
+## Highlights
+
+* 🏎️ Completely serverless
+* 🌐 Works offline
+* 🧠 Runs YOLOv5 Nano in the background
+* 🗃️ Built-in dataset generator
+* 😎 Automatic dark mode
+* 🍰 Follows the [feature-sliced methodology](https://feature-sliced.design/)
+
+## Screenshots
+
+<table>
+<thead>
+<th>Home page</th>
+<th>Drawing canvas</th>
+<th>Dataset generator</th>
+</thead>
+<tr>
+<td>
+
+![Home page](./.github/readme/home.jpg)
+
+</td>
+<td>
+
+![Drawing page](./.github/readme/draw.jpg)
+
+</td>
+<td>
+
+![Dataset page](./.github/readme/dataset.jpg)
+
+</td>
+</tr>
+</table>
+
+## Running locally
+
+Grab the `model.zip` file from the latest release and unpack its contents into `static/`. Then run the usual commands:
 
 ```bash
-pnpm run dev
-
-# or start the server and open the app in a new browser tab
-pnpm run dev -- --open
+pnpm i
+pnpm dev
 ```
 
-## Building
+## License
 
-This project uses the [static-adapter](https://github.com/sveltejs/kit/tree/master/packages/adapter-static) to build a static website that is easily deployable on any server.
-To build the website, use:
-
-```bash
-pnpm run build
-```
-The build output can then be found in the `build` directory.
-
-> You can preview the built app with `pnpm run preview`, regardless of whether you installed an adapter. This should _not_ be used to serve your app in production.
+The source code of this project is distributed under the terms of the MIT license. [Click here](https://choosealicense.com/licenses/mit/) to learn what that means.
