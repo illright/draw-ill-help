@@ -26,7 +26,6 @@ function preprocessInput(input: Tensor<Rank.R3>) {
 }
 
 async function runPrediction(event: MessageEvent<{ image: ImageData; regionBBox: BBox; id: number; }>) {
-  console.log('what');
   const model = await modelReady;
   const inputPixels = await browser.fromPixelsAsync(event.data.image);
   const inputNormalized = preprocessInput(inputPixels);
@@ -38,8 +37,6 @@ async function runPrediction(event: MessageEvent<{ image: ImageData; regionBBox:
   inputPixels.dispose();
   inputNormalized.dispose();
   dispose(output);
-
-  console.log('that');
 
   const relativeBBox = Array.from(relativeBBoxes).slice(0, 4);
   const confidence = confidences[0];
