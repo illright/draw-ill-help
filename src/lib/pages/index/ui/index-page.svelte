@@ -6,7 +6,7 @@
 
   import { Canvas, extractLastDrawing } from '$lib/widgets/canvas';
   import { Toolbar, Tool, Action } from '$lib/widgets/toolbar';
-  import { detectShape, yolov5 } from '$lib/features/detect-shape';
+  import { detector, onPredict, track } from '$lib/features/detect-shape';
 
   let canvas: Canvas;
   let currentTool: 'Draw' | 'Select' = 'Draw';
@@ -16,26 +16,21 @@
   }
 
   onMount(() => {
-    // yolov5.preload()
+    if (canvas !== undefined) {
+      onPredict(canvas.addPredictedObject);
+    }
   });
 </script>
 
 <div class="w-full h-screen relative">
   <Canvas
     bind:this={canvas}
-    on:object-drawn={async ({ detail: { object, fabricReal, fabricOffScreen } }) => {
+    on:object-drawn={async ({ detail: { object, fabricOffScreen } }) => {
       const lastDrawing = await extractLastDrawing(object, fabricOffScreen);
       if (lastDrawing !== null) {
         const [image, _bbox, regionBBox] = lastDrawing;
-        const shape = await detectShape(image, regionBBox);
-
-        if (shape !== null) {
-          fabricReal.add(shape);
-          fabricReal.remove(object);
-          return;
-        }
+        detector.predict(image, regionBBox, track(object));
       }
-      object.excludeFromExport = true;
     }}
   />
   <Toolbar>

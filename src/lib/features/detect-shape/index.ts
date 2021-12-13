@@ -1,2 +1,3 @@
-export { detectShape } from './model/detect-shape';
-export { yolov5 } from './model/yolov5';
+export { detector, onPredict } from './model/controller';
+export { classDrawingTools } from './model/classes';
+export { track, untrack } from './model/drawing-registry';

@@ -3,6 +3,8 @@
   import { fabric } from 'fabric';
 
   import { autoResize, stopAutoResizing } from './resize-observer';
+  import { classDrawingTools, untrack } from '$lib/features/detect-shape';
+  import type { BBox } from '$lib/entities/bounding-box';
 
   let container: HTMLDivElement | undefined;
   let domRealCanvas: HTMLCanvasElement | undefined;
@@ -21,6 +23,41 @@
   export function setDrawingMode(mode: boolean) {
     if (fabricRealCanvas !== undefined) {
       fabricRealCanvas.isDrawingMode = mode;
+    }
+  }
+
+  interface PredictedObject {
+    className: 'Circle' | 'Rectangle';
+    bbox: BBox;
+  }
+
+  export function addPredictedObject(objectID: number, predictedObject: PredictedObject) {
+    if (fabricRealCanvas !== undefined) {
+      const drawing = untrack(objectID);
+      if (predictedObject === null) {
+        return;
+      }
+
+      fabricRealCanvas.remove(drawing);
+      const size =
+        predictedObject.className === 'Circle'
+          ? {
+              rx: predictedObject.bbox[2] / 2,
+              ry: predictedObject.bbox[3] / 2,
+            }
+          : {
+              width: predictedObject.bbox[2],
+              height: predictedObject.bbox[3],
+            };
+      const object = new classDrawingTools[predictedObject.className]({
+        left: predictedObject.bbox[0],
+        top: predictedObject.bbox[1],
+        ...size,
+      });
+      object.stroke = foregroundColor;
+      object.strokeWidth = 4;
+      object.fill = 'transparent';
+      fabricRealCanvas.add(object);
     }
   }
 
