@@ -9,7 +9,7 @@ import { build, timestamp, files } from '$service-worker';
 
 /** Unique cache ID, generated at build time. */
 const cacheName = `draw-ill-help-${timestamp}`;
-const routes = ['/cvdl-project', '/cvdl-project/dataset'];
+const routes = ['/cvdl-project', '/cvdl-project/draw', '/cvdl-project/dataset'];
 
 /**
  * Download the website files on initialization.
