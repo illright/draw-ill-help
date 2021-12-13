@@ -1,39 +1,70 @@
-name: Deploy updates on push
+# name: Deploy updates on pushes and releases
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
+#   release:
 
-jobs:
-  build-deploy:
-    name: Build and deploy the demo
-    runs-on: ubuntu-latest
-    # Note: almost all of the steps where copied over from
-    #  https://github.com/illright/attractions/blob/main/.github/workflows/
-    steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
+# jobs:
+#   find-model-in-releases:
+#     name: Find a YOLOv5 model in the latest release
+#     runs-on: ubuntu-latest
+#     outputs:
+#       model-asset-id: ${{ steps.find-model.outputs.model-asset-id }}
+#     steps:
+#       - name: Checkout 📦
+#         uses: actions/checkout@v2
+#         with:
+#           persist-credentials: false
 
-      - name: Set up Node 14 📦
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+#       - name: Get the asset ID of the model 🔎
+#         id: find-model
+#         uses: actions/github-script@v5
+#         with:
+#           script: |
+#             require('.github/workflows/scripts/find-model-in-releases.js')({
+#               github, context, core
+#             });
 
-      - name: Install pnpm 🧰
-        uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 6.14.2
+#   build-deploy:
+#     name: Build and deploy the demo
+#     needs: check-model-in-releases
+#     if: needs.find-model-in-releases.outputs.model-asset-id != 'null'
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout 📦
+#         uses: actions/checkout@v2
+#         with:
+#           persist-credentials: false
 
-      - name: Build demo 🔧
-        run: |
-          pnpm install
-          pnpm run build
+#       - name: Download YOLOv5 model weights 📩
+#         uses: actions/github-script@v5
+#         with:
+#           script: |
+#             require('.github/workflows/scripts/download-model.js')(
+#               '${{ needs.find-model-in-releases.outputs.model-asset-id }}',
+#               { github, context, core }
+#             );
 
-      - name: Deploy to GH Pages 🚀
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build
+#       - name: Set up Node 16 📦
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: '16'
+
+#       - name: Install pnpm 🔧
+#         uses: pnpm/action-setup@646cdf48217256a3d0b80361c5a50727664284f2
+#         with:
+#           version: 6.23.6
+
+#       - name: Build demo 🚲
+#         run: |
+#           pnpm install
+#           pnpm run build
+
+#       - name: Deploy to GH Pages 🚀
+#         uses: peaceiris/actions-gh-pages@068dc23d9710f1ba62e86896f84735d869951305
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           publish_dir: build
+#           force_orphan: true
