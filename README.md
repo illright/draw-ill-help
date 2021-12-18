@@ -51,7 +51,7 @@ pnpm dev
 
 ## Training YOLOv5 yourself
 
-The notebook with explanations for the training process is available in the [`yolov5/`](./yolov5) directory.
+The Jupyter notebook with explanations for the training process is available in the [`yolov5/`](./yolov5) directory.
 
 The recommended way to run the notebook is with Google Colaboratory. If you're using the GPU session and the free Colab account, the dataset of around 1.5k 416x416 images should take around two hours to train.
 
