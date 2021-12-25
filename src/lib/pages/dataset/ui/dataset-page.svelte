@@ -7,7 +7,7 @@
   import IconUndo from '~icons/bx/bx-undo';
   import IconArrowBack from '~icons/bx/bx-arrow-back';
 
-  import { Canvas, extractLastDrawing } from '$lib/widgets/canvas';
+  import { Canvas, type CanvasEvents } from '$lib/widgets/canvas';
   import { Toolbar, Tool, Action } from '$lib/widgets/toolbar';
   import {
     dataset,
@@ -17,18 +17,18 @@
     type SampleClass,
   } from '$lib/features/generate-dataset';
   import { colors } from '$lib/features/dark-mode';
+  import { extractToSeparateCanvas } from '$lib/features/in-memory-canvas';
 
   let currentTool: SampleClass = 'Circle';
 
-  async function addObjectToDataset({ detail: { object, fabricReal, fabricOffScreen } }: any) {
-    const lastObject = await extractLastDrawing(
-      object,
-      fabricOffScreen
-    );
+  async function addObjectToDataset({
+    detail: { object, fabricCanvas },
+  }: CustomEvent<CanvasEvents['object-drawn']>) {
+    const lastObject = await extractToSeparateCanvas(object);
     if (lastObject !== null) {
-      const [canvas, bbox] = lastObject;
-      addImage(canvas, bbox, currentTool);
-      setTimeout(() => fabricReal.remove(object), 500);
+      const { imageData, bbox } = lastObject;
+      addImage(imageData, bbox, currentTool);
+      setTimeout(() => fabricCanvas.remove(object), 500);
     }
   }
 

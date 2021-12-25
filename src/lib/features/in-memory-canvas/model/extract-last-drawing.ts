@@ -1,4 +1,4 @@
-import type { Path } from 'fabric/fabric-impl';
+import type { fabric } from 'fabric';
 
 import {
   type BBox,
@@ -8,9 +8,12 @@ import {
   relativeCoordinates,
   scaledCoordinates,
 } from '$lib/entities/bounding-box';
+import { strokeColor, backgroundColor, inputImageSize } from '$lib/shared/train-data';
 
-const MODEL_INPUT_SIZE = 416;
-const modelInputBBox: BBox = [0, 0, MODEL_INPUT_SIZE, MODEL_INPUT_SIZE];
+import { requestCanvasToFit } from './in-memory-canvas';
+import type { SingleDrawing } from '../types';
+
+const modelInputBBox: BBox = [0, 0, inputImageSize, inputImageSize];
 
 function crop(sourceCanvas: HTMLCanvasElement, sourcePosition: BBox) {
   const buffer = document.createElement('canvas');
@@ -20,7 +23,7 @@ function crop(sourceCanvas: HTMLCanvasElement, sourcePosition: BBox) {
 
   const bufferContext = buffer.getContext('2d');
   if (bufferContext !== null) {
-    bufferContext.fillStyle = 'white';
+    bufferContext.fillStyle = backgroundColor;
     bufferContext.fillRect(0, 0, buffer.width, buffer.height);
     bufferContext.drawImage(sourceCanvas, ...sourcePosition, ...targetPosition);
     return buffer;
@@ -29,37 +32,33 @@ function crop(sourceCanvas: HTMLCanvasElement, sourcePosition: BBox) {
   }
 }
 
-export async function extractLastDrawing(
-  object: Path,
-  toCanvas: fabric.Canvas
-): Promise<[HTMLCanvasElement, BBox, BBox] | null> {
-  if (object === undefined) {
+export async function extractToSeparateCanvas(object: fabric.Path): Promise<SingleDrawing | null> {
+  const offScreenCanvas = requestCanvasToFit(object);
+  if (offScreenCanvas === null) {
     return null;
   }
 
-  const objectCopy = object.toObject();
-  objectCopy.stroke = '#000';
+  const serializedDrawing = {
+    objects: [{ ...object.toObject(), stroke: strokeColor }],
+    background: backgroundColor,
+  };
 
-  await new Promise((resolve) =>
-    toCanvas.loadFromJSON(
-      {
-        objects: [objectCopy],
-        background: '#fff',
-      },
-      resolve
-    )
-  );
-  toCanvas.renderAll();
+  await new Promise((resolve) => offScreenCanvas.loadFromJSON(serializedDrawing, resolve));
+  offScreenCanvas.renderAll();
 
   const bbox = getPathBBox(object);
   if (bbox !== undefined) {
     const regionAroundObject = inscribeInSquare(expandBBox(bbox, 1.1));
     const bboxInRegion = relativeCoordinates(bbox, regionAroundObject);
     const bboxInScaledRegion = scaledCoordinates(bboxInRegion, regionAroundObject, modelInputBBox);
-    const croppedCanvas = crop(toCanvas.getElement(), regionAroundObject);
+    const croppedCanvas = crop(offScreenCanvas.getElement(), regionAroundObject);
 
     if (croppedCanvas !== null) {
-      return [croppedCanvas, bboxInScaledRegion, regionAroundObject];
+      return {
+        imageData: croppedCanvas,
+        bbox: bboxInScaledRegion,
+        regionBBox: regionAroundObject,
+      };
     }
   }
 

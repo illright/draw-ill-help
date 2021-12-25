@@ -6,10 +6,11 @@
   import IconTrash from '~icons/bx/bx-trash';
   import IconArrowBack from '~icons/bx/bx-arrow-back';
 
-  import { Canvas, extractLastDrawing } from '$lib/widgets/canvas';
+  import { Canvas } from '$lib/widgets/canvas';
   import { Toolbar, Tool, Action } from '$lib/widgets/toolbar';
   import { detector, onPredict, unsubscribe, track } from '$lib/features/detect-shape';
   import { colors } from '$lib/features/dark-mode';
+  import { extractToSeparateCanvas } from '$lib/features/in-memory-canvas';
 
   let canvas: Canvas;
   let currentTool: 'Draw' | 'Select' = 'Draw';
@@ -33,11 +34,12 @@
     brushColor={$colors.foreground}
     drawMode={currentTool === 'Draw'}
     bind:this={canvas}
-    on:object-drawn={async ({ detail: { object, fabricOffScreen } }) => {
-      const lastDrawing = await extractLastDrawing(object, fabricOffScreen);
+
+    on:object-drawn={async ({ detail: { object } }) => {
+      const lastDrawing = await extractToSeparateCanvas(object);
       if (lastDrawing !== null) {
-        const [image, _bbox, regionBBox] = lastDrawing;
-        detector.predict(image, regionBBox, track(object));
+        const { imageData, regionBBox } = lastDrawing;
+        detector.predict(imageData, regionBBox, track(object));
       }
     }}
   />
