@@ -1,6 +1,7 @@
 import noop from 'lodash.noop';
 import type { fabric } from 'fabric';
 
+/** Reflect the changes to the drawing mode in the Fabric instance. */
 export function syncDrawingMode(
   fabricCanvas: fabric.Canvas | undefined,
   drawingMode: boolean
@@ -10,6 +11,11 @@ export function syncDrawingMode(
   }
 }
 
+/**
+ * Reflect the changes to the brush width in the Fabric instance.
+ *
+ * Will redraw every object with the new value.
+ */
 export function syncBrushWidth(
   fabricCanvas: fabric.Canvas | undefined,
   brushWidth: number
@@ -17,13 +23,16 @@ export function syncBrushWidth(
   if (fabricCanvas !== undefined) {
     fabricCanvas.freeDrawingBrush.width = brushWidth;
     for (const object of fabricCanvas.getObjects()) {
-      object.strokeWidth = brushWidth;
-      object.dirty = true;
+      object.set({ strokeWidth: brushWidth });
     }
-    fabricCanvas.renderAll();
   }
 }
 
+/**
+ * Reflect the changes to the brush color in the Fabric instance.
+ *
+ * Will redraw every object with the new value.
+ */
 export function syncBrushColor(
   fabricCanvas: fabric.Canvas | undefined,
   brushColor: string
@@ -31,13 +40,12 @@ export function syncBrushColor(
   if (fabricCanvas !== undefined) {
     fabricCanvas.freeDrawingBrush.color = brushColor;
     for (const object of fabricCanvas.getObjects()) {
-      object.stroke = brushColor;
-      object.dirty = true;
+      object.set({ stroke: brushColor });
     }
-    fabricCanvas.renderAll();
   }
 }
 
+/** Reflect the changes to the background color in the Fabric instance. */
 export function syncBackgroundColor(
   fabricCanvas: fabric.Canvas | undefined,
   backgroundColor: string
