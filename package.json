@@ -16,6 +16,7 @@
     "@sveltejs/kit": "next",
     "@types/fabric": "^4.5.5",
     "@types/file-saver": "^2.0.4",
+    "@types/lodash.noop": "^3.0.6",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
     "autoprefixer": "^10.3.7",
@@ -41,6 +42,7 @@
     "fabric": "^4.6.0",
     "file-saver": "^2.0.5",
     "jszip": "^3.7.1",
+    "lodash.noop": "^3.0.1",
     "seedrandom": "~2.4.3"
   }
 }

@@ -1,5 +1,9 @@
-import type { BBox } from '../model/type';
+import type { BBox } from './type';
 
+/**
+ * Get the bounding box of a concentric square
+ * that a given bounding box can be inscribed into.
+ */
 export function inscribeInSquare(bbox: BBox): BBox {
   const [left, top, width, height] = bbox;
   const centerPoint = [left + width / 2, top + height / 2];

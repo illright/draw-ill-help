@@ -1,6 +1,8 @@
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
+import { get } from 'svelte/store';
 
+import { dataset } from './dataset';
 import type { Sample, SampleClass } from './type';
 
 /**
@@ -28,12 +30,12 @@ interface SuperviselyAnnotation {
 
 function buildAnnotation(sample: Sample): string {
   const annotation: SuperviselyAnnotation = {
-      size: {
-        height: 416,
-        width: 416,
-      },
-      objects: [],
-    };
+    size: {
+      height: 416,
+      width: 416,
+    },
+    objects: [],
+  };
 
   if (sample.className !== 'Nothing') {
     annotation.objects.push({
@@ -50,17 +52,23 @@ function buildAnnotation(sample: Sample): string {
   return JSON.stringify(annotation, null, 2);
 }
 
-export async function exportData($dataset: Sample[]): Promise<void> {
+/**
+ * Pack all the samples from the in-memory dataset in a ZIP archive and trigger a download.
+ *
+ * This will clear the dataset.
+ */
+export async function downloadDataset(): Promise<void> {
   const datasetID = Math.random().toString(36).substring(2, 9);
   const zip = new JSZip();
   const ann = zip.folder('ann');
   const img = zip.folder('img');
 
-  $dataset.forEach((sample, index) => {
+  get(dataset).forEach((sample, index) => {
     const imageFileName = `image-${datasetID}-${index}.jpg`;
     ann?.file(`${imageFileName}.json`, buildAnnotation(sample));
     img?.file(imageFileName, sample.data);
   });
+  dataset.set([]);
 
   const zipBlob = await zip.generateAsync({ type: 'blob' });
   saveAs(zipBlob, `dataset-${datasetID}.zip`);
