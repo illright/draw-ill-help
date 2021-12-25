@@ -16,9 +16,7 @@
 
   let container: HTMLDivElement | undefined;
   let domRealCanvas: HTMLCanvasElement | undefined;
-  let domOffScreenCanvas: HTMLCanvasElement | undefined;
   let fabricRealCanvas: fabric.Canvas | undefined;
-  let fabricOffScreenCanvas: fabric.Canvas | undefined;
 
   export let drawMode = false;
   export let brushWidth = 4;
@@ -31,7 +29,7 @@
 
   export function clear() {
     fabricRealCanvas?.clear();
-    fabricRealCanvas?.setBackgroundColor(backgroundColor, () => {});
+    syncBackgroundColor(fabricRealCanvas, backgroundColor);
   }
 
   interface PredictedObject {
@@ -70,37 +68,27 @@
   }
 
   onMount(() => {
-    domOffScreenCanvas = document.createElement('canvas');
-    if (domRealCanvas === undefined) {
+    if (domRealCanvas === undefined || container === undefined) {
       return;
     }
 
     fabricRealCanvas = new fabric.Canvas(domRealCanvas, {
       enableRetinaScaling: false,
     });
-    fabricOffScreenCanvas = new fabric.Canvas(domOffScreenCanvas, {
-      skipOffscreen: false,
-      enableRetinaScaling: false,
-    });
     fabricRealCanvas.on('object:added', function(this: fabric.Canvas, { target: object }) {
       if (object instanceof fabric.Path) {
-        if (fabricOffScreenCanvas !== undefined) {
-          dispatch('object-drawn', { object, fabricCanvas: this, fabricOffScreen: fabricOffScreenCanvas })
-        }
+        dispatch('object-drawn', { object, fabricCanvas: this })
       } else if (object !== undefined) {
         object.stroke = brushColor;
       }
     });
 
-    if (container !== undefined) {
-      autoResize([fabricRealCanvas, fabricOffScreenCanvas], container);
-    }
+    autoResize(fabricRealCanvas, container);
   });
 
   onDestroy(() => {
     stopAutoResizing();
     fabricRealCanvas?.dispose();
-    fabricOffScreenCanvas?.dispose();
   });
 
   const dispatch = createEventDispatcher<CanvasEvents>();

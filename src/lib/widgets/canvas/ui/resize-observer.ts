@@ -12,7 +12,7 @@ function getDimensions(entry: ResizeObserverEntry) {
   }
 }
 
-export function autoResize(canvases: fabric.Canvas[], container: HTMLElement): void {
+export function autoResize(canvas: fabric.Canvas, container: HTMLElement): void {
   if (resizeObserver !== undefined) {
     resizeObserver.disconnect();
   }
@@ -20,9 +20,7 @@ export function autoResize(canvases: fabric.Canvas[], container: HTMLElement): v
   resizeObserver = new ResizeObserver((entries) => {
     for (const entry of entries) {
       const dimensions = getDimensions(entry);
-      for (const canvas of canvases) {
-        canvas.setDimensions(dimensions);
-      }
+      canvas.setDimensions(dimensions);
     }
   });
   resizeObserver.observe(container);

@@ -7,6 +7,5 @@ export interface CanvasEvents {
     object: fabric.Path;
     /** A reference to the canvas that the object was drawn on. */
     fabricCanvas: fabric.Canvas;
-    fabricOffScreen: fabric.Canvas;
   };
 }
