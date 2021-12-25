@@ -16,6 +16,7 @@
   let foregroundColor = '#000000';
 
   export let drawMode = false;
+  export let brushWidth = 4;
 
   export function clear() {
     fabricRealCanvas?.clear();
@@ -57,7 +58,7 @@
         ...size,
       });
       object.stroke = foregroundColor;
-      object.strokeWidth = 4;
+      object.strokeWidth = brushWidth;
       object.fill = 'transparent';
       fabricRealCanvas.add(object);
     }
@@ -83,7 +84,7 @@
     darkColorsMedia = window.matchMedia('(prefers-color-scheme: dark)');
     darkColorsMedia.addEventListener('change', switchToDarkTheme);
     switchToDarkTheme(darkColorsMedia);
-    if (domRealCanvas === undefined || domOffScreenCanvas === undefined) {
+    if (domRealCanvas === undefined) {
       return;
     }
 
@@ -92,8 +93,9 @@
       isDrawingMode: drawMode,
       backgroundColor,
     });
-    fabricRealCanvas.freeDrawingBrush.width = 4;
+    fabricRealCanvas.freeDrawingBrush.width = brushWidth;
     fabricRealCanvas.freeDrawingBrush.color = foregroundColor;
+    domOffScreenCanvas = document.createElement('canvas');
     fabricOffScreenCanvas = new fabric.Canvas(domOffScreenCanvas, {
       skipOffscreen: false,
       enableRetinaScaling: false,
@@ -129,14 +131,11 @@
   onDestroy(() => {
     darkColorsMedia?.removeEventListener('change', switchToDarkTheme);
     stopAutoResizing();
+    domOffScreenCanvas?.remove()
   });
   const dispatch = createEventDispatcher<any>();
 </script>
 
 <div class="h-full" bind:this={container}>
   <canvas bind:this={domRealCanvas} />
-</div>
-
-<div class="sr-only">
-  <canvas bind:this={domOffScreenCanvas} />
 </div>
