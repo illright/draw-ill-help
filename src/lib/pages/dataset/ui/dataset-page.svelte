@@ -11,7 +11,7 @@
   import { Toolbar, Tool, Action } from '$lib/widgets/toolbar';
   import {
     dataset,
-    exportData,
+    downloadDataset,
     removeLastImage,
     addImage,
     type SampleClass,
@@ -30,11 +30,6 @@
       addImage(imageData, bbox, currentTool);
       setTimeout(() => fabricCanvas.remove(object), 500);
     }
-  }
-
-  function downloadDataset() {
-    exportData($dataset);
-    dataset.set([]);
   }
 </script>
 

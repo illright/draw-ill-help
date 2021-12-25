@@ -1,5 +1,6 @@
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
+import { get, type Writable } from 'svelte/store';
 
 import type { Sample, SampleClass } from './type';
 
@@ -50,17 +51,23 @@ function buildAnnotation(sample: Sample): string {
   return JSON.stringify(annotation, null, 2);
 }
 
-export async function exportData($dataset: Sample[]): Promise<void> {
+/**
+ * Pack all the samples from the in-memory dataset in a ZIP archive and trigger a download.
+ *
+ * This will clear the dataset.
+ */
+export async function downloadDataset(dataset: Writable<Sample[]>): Promise<void> {
   const datasetID = Math.random().toString(36).substring(2, 9);
   const zip = new JSZip();
   const ann = zip.folder('ann');
   const img = zip.folder('img');
 
-  $dataset.forEach((sample, index) => {
+  get(dataset).forEach((sample, index) => {
     const imageFileName = `image-${datasetID}-${index}.jpg`;
     ann?.file(`${imageFileName}.json`, buildAnnotation(sample));
     img?.file(imageFileName, sample.data);
   });
+  dataset.set([]);
 
   const zipBlob = await zip.generateAsync({ type: 'blob' });
   saveAs(zipBlob, `dataset-${datasetID}.zip`);
