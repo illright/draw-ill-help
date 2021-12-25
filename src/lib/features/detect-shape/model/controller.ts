@@ -1,20 +1,21 @@
 import ShapeDetector from './yolov5.worker?worker';
 
-import type { BBox } from "$lib/entities/bounding-box";
+import type { BBox } from '$lib/shared/bounding-box';
+
 let worker: Worker | undefined;
 let subscriptions: Array<(id: number, object: any) => void> = [];
-let markModelAsReady: (() => void) | undefined;
 
-export const modelReady = new Promise<void>(resolve => {
+let markModelAsReady: (() => void) | undefined;
+export const modelReady = new Promise<void>((resolve) => {
   markModelAsReady = resolve;
-})
+});
 
 export function onPredict(callback: (id: number, object: any) => void): void {
   subscriptions.push(callback);
 }
 
 export function unsubscribe(callback: (id: number, object: any) => void): void {
-  subscriptions = subscriptions.filter(thatCallback => thatCallback !== callback);
+  subscriptions = subscriptions.filter((thatCallback) => thatCallback !== callback);
 }
 
 function messageReceived(message: any) {
@@ -45,5 +46,5 @@ export const detector = {
   stop(): void {
     worker?.removeEventListener('message', messageReceived);
     subscriptions = [];
-  }
-}
+  },
+};

@@ -1,7 +1,7 @@
 import { browser } from '$app/env';
 import { fabric } from 'fabric';
 
-import { getPathBBox } from '$lib/entities/bounding-box';
+import { getPathBBox } from '$lib/shared/bounding-box';
 
 let offScreenCanvas: fabric.Canvas | null = null;
 

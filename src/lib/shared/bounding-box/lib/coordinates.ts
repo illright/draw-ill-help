@@ -1,4 +1,4 @@
-import type { BBox } from '../model/type';
+import type { BBox } from './type';
 
 /**
  * Taking the system's top-left point as the origin, return

@@ -1,6 +1,6 @@
 import type { Path } from 'fabric/fabric-impl';
 
-import type { BBox } from '../model/type';
+import type { BBox } from './type';
 
 /** Get a bounding box for an arbitrary `Path` object from Fabric. */
 export function getPathBBox(pathObject: Path): BBox | undefined {

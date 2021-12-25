@@ -1,4 +1,4 @@
-import type { BBox } from '../model/type';
+import type { BBox } from './type';
 
 /**
  * Get the bounding box of a concentric square

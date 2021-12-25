@@ -1,4 +1,4 @@
-import type { BBox } from '../model/type';
+import type { BBox } from './type';
 
 /** Grow the bounding box by a factor, taking the center as the fixed point. */
 export function expandBBox(bbox: BBox, factor: number): BBox {

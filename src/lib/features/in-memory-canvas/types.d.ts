@@ -1,4 +1,4 @@
-import type { BBox } from '$lib/entities/bounding-box';
+import type { BBox } from '$lib/shared/bounding-box';
 
 export interface SingleDrawing {
   imageData: HTMLCanvasElement;

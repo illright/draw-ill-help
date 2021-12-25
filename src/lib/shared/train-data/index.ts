@@ -1,6 +1,5 @@
 /** The classes that the model is trained to recognize. */
 export type Shape = 'Circle' | 'Rectangle';
-export const shapeClasses: Shape[] = ['Circle', 'Rectangle'];
 
 /** The stroke color of the shapes that the model is trained on. */
 export const strokeColor = '#000';

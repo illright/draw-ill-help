@@ -7,7 +7,7 @@ import {
   inscribeInSquare,
   relativeCoordinates,
   scaledCoordinates,
-} from '$lib/entities/bounding-box';
+} from '$lib/shared/bounding-box';
 import { strokeColor, backgroundColor, inputImageSize } from '$lib/shared/train-data';
 
 import { requestCanvasToFit } from './in-memory-canvas';

@@ -1,4 +1,4 @@
-import type { BBox, RelativeBBox } from "../model/type";
+import type { BBox, RelativeBBox } from './type';
 
 /**
  * Compute the absolute coordinates of a relative bounding box

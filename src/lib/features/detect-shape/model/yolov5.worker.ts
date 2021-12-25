@@ -1,7 +1,8 @@
 import { dispose, loadGraphModel, zeros, tidy, browser } from '@tensorflow/tfjs';
 import type { GraphModel, Tensor, Rank } from '@tensorflow/tfjs';
 
-import { scaleToAbsoulteBBox, type BBox, type RelativeBBox } from '$lib/entities/bounding-box';
+import { scaleToAbsoulteBBox, type BBox, type RelativeBBox } from '$lib/shared/bounding-box';
+import { inputImageSize } from '$lib/shared/train-data';
 
 const confidenceThreshold = 0.67;
 const modelURL = `${vite.define.basePath}/model.json`;
@@ -12,7 +13,9 @@ modelReady.then(() => postMessage({ type: 'model-ready' }));
 addEventListener('message', runPrediction);
 
 async function warmUp(model: GraphModel) {
-  const sampleInput = zeros([1, 416, 416, 3]);
+  const imagesInBatch = 1;
+  const imageChannels = 3;
+  const sampleInput = zeros([imagesInBatch, inputImageSize, inputImageSize, imageChannels]);
   const output = await model.executeAsync(sampleInput);
 
   sampleInput.dispose();
