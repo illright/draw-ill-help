@@ -3,7 +3,7 @@
 
   export let icon: typeof SvelteComponent;
   export let actionName: string;
-  export let disabled: boolean = false;
+  export let disabled = false;
   export let badge: string | null = null;
 </script>
 

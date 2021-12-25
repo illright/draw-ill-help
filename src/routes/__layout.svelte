@@ -6,6 +6,8 @@
 
   import '../app.css';
 
+  // TODO: figure out how to tell ESLint to respect TypeScript's globals
+  // eslint-disable-next-line no-undef
   const basePath = vite.define.basePath;
 
   onMount(yolov5.initialize);
@@ -14,7 +16,7 @@
 </script>
 
 <svelte:head>
-  <link rel="icon" href="{basePath}/FlatColorIconsPicture.svg" type="image/svg+xml">
+  <link rel="icon" href="{basePath}/FlatColorIconsPicture.svg" type="image/svg+xml" />
 </svelte:head>
 
 <slot />

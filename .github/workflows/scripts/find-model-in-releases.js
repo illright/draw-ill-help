@@ -8,7 +8,7 @@ const modelFileName = 'model.json';
  */
 module.exports = function findModelInReleases({ github, context, core }) {
   const release = github.rest.repos.getLatestRelease(context.repo);
-  const modelAsset = release?.assets.find(asset => asset.name === modelFileName);
+  const modelAsset = release?.assets.find((asset) => asset.name === modelFileName);
 
   core.setOutput('model-asset-id', modelAsset?.id ?? 'null');
 

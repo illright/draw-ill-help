@@ -31,6 +31,14 @@
     syncBackgroundColor(fabricRealCanvas, backgroundColor);
   }
 
+  function processNewObject(this: fabric.Canvas, { target }: fabric.IEvent) {
+    if (target instanceof fabric.Path) {
+      dispatch('object-drawn', { object: target, fabricCanvas: this });
+    } else if (target !== undefined) {
+      styleWithBrush(target, this.freeDrawingBrush);
+    }
+  }
+
   onMount(() => {
     if (domRealCanvas === undefined || container === undefined) {
       return;
@@ -39,13 +47,7 @@
     fabricRealCanvas = new fabric.Canvas(domRealCanvas, {
       enableRetinaScaling: false,
     });
-    fabricRealCanvas.on('object:added', function(this: fabric.Canvas, { target: object }) {
-      if (object instanceof fabric.Path) {
-        dispatch('object-drawn', { object, fabricCanvas: this })
-      } else if (object !== undefined) {
-        styleWithBrush(object, this.freeDrawingBrush);
-      }
-    });
+    fabricRealCanvas.on('object:added', processNewObject);
 
     autoResize(fabricRealCanvas, container);
   });

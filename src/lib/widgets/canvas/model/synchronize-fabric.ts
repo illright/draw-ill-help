@@ -16,10 +16,7 @@ export function syncDrawingMode(
  *
  * Will redraw every object with the new value.
  */
-export function syncBrushWidth(
-  fabricCanvas: fabric.Canvas | undefined,
-  brushWidth: number
-): void {
+export function syncBrushWidth(fabricCanvas: fabric.Canvas | undefined, brushWidth: number): void {
   if (fabricCanvas !== undefined) {
     fabricCanvas.freeDrawingBrush.width = brushWidth;
     for (const object of fabricCanvas.getObjects()) {
@@ -33,10 +30,7 @@ export function syncBrushWidth(
  *
  * Will redraw every object with the new value.
  */
-export function syncBrushColor(
-  fabricCanvas: fabric.Canvas | undefined,
-  brushColor: string
-): void {
+export function syncBrushColor(fabricCanvas: fabric.Canvas | undefined, brushColor: string): void {
   if (fabricCanvas !== undefined) {
     fabricCanvas.freeDrawingBrush.color = brushColor;
     for (const object of fabricCanvas.getObjects()) {
