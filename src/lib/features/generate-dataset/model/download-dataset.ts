@@ -1,7 +1,8 @@
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
-import { get, type Writable } from 'svelte/store';
+import { get } from 'svelte/store';
 
+import { dataset } from './dataset';
 import type { Sample, SampleClass } from './type';
 
 /**
@@ -29,12 +30,12 @@ interface SuperviselyAnnotation {
 
 function buildAnnotation(sample: Sample): string {
   const annotation: SuperviselyAnnotation = {
-      size: {
-        height: 416,
-        width: 416,
-      },
-      objects: [],
-    };
+    size: {
+      height: 416,
+      width: 416,
+    },
+    objects: [],
+  };
 
   if (sample.className !== 'Nothing') {
     annotation.objects.push({
@@ -56,7 +57,7 @@ function buildAnnotation(sample: Sample): string {
  *
  * This will clear the dataset.
  */
-export async function downloadDataset(dataset: Writable<Sample[]>): Promise<void> {
+export async function downloadDataset(): Promise<void> {
   const datasetID = Math.random().toString(36).substring(2, 9);
   const zip = new JSZip();
   const ann = zip.folder('ann');

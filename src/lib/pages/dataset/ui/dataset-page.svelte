@@ -7,30 +7,19 @@
   import IconUndo from '~icons/bx/bx-undo';
   import IconArrowBack from '~icons/bx/bx-arrow-back';
 
-  import { Canvas, type CanvasEvents } from '$lib/widgets/canvas';
+  import { Canvas } from '$lib/widgets/canvas';
   import { Toolbar, Tool, Action } from '$lib/widgets/toolbar';
   import {
     dataset,
     downloadDataset,
     removeLastImage,
-    addImage,
     type SampleClass,
   } from '$lib/features/generate-dataset';
   import { colors } from '$lib/features/dark-mode';
-  import { extractToSeparateCanvas } from '$lib/features/in-memory-canvas';
+
+  import { addToDataset } from '../model/add-to-dataset';
 
   let currentTool: SampleClass = 'Circle';
-
-  async function addObjectToDataset({
-    detail: { object, fabricCanvas },
-  }: CustomEvent<CanvasEvents['object-drawn']>) {
-    const lastObject = await extractToSeparateCanvas(object);
-    if (lastObject !== null) {
-      const { imageData, bbox } = lastObject;
-      addImage(imageData, bbox, currentTool);
-      setTimeout(() => fabricCanvas.remove(object), 500);
-    }
-  }
 </script>
 
 <div class="w-full h-screen relative">
@@ -38,7 +27,7 @@
     drawMode
     backgroundColor={$colors.background}
     brushColor={$colors.foreground}
-    on:object-drawn={addObjectToDataset}
+    on:object-drawn={(event) => addToDataset(event, currentTool)}
   />
   <Toolbar>
     <Action actionName="Go to the home page" icon={IconArrowBack} on:click={() => goto('/')} />
