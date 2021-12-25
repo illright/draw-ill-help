@@ -1,3 +1,3 @@
-export { detector, onPredict, unsubscribe, modelReady } from './model/controller';
-export { classDrawingTools } from './model/classes';
-export { track, untrack } from './model/drawing-registry';
+export { modelReady } from './model/model-ready';
+export { yolov5 } from './model/yolov5';
+export { drawFromPrediction } from './lib/draw-from-prediction';

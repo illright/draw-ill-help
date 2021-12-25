@@ -1,14 +1,15 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
 
-  import { detector } from '$lib/features/detect-shape';
-  import { discardInMemoryCanvas } from '$lib/features/in-memory-canvas';
+  import { yolov5 } from '$lib/features/detect-shape';
+  import { discardInMemoryCanvas } from '$lib/shared/in-memory-canvas';
 
   import '../app.css';
 
   const basePath = vite.define.basePath;
 
-  onMount(detector.initialize);
+  onMount(yolov5.initialize);
+  onDestroy(yolov5.stop);
   onDestroy(discardInMemoryCanvas);
 </script>
 
