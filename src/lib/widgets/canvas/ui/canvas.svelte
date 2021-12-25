@@ -2,8 +2,7 @@
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import { fabric } from 'fabric';
 
-  import { classDrawingTools, untrack } from '$lib/features/detect-shape';
-  import type { BBox } from '$lib/entities/bounding-box';
+  import { styleWithBrush } from '$lib/entities/drawing';
 
   import { autoResize, stopAutoResizing } from './resize-observer';
   import {
@@ -32,41 +31,6 @@
     syncBackgroundColor(fabricRealCanvas, backgroundColor);
   }
 
-  interface PredictedObject {
-    className: 'Circle' | 'Rectangle';
-    bbox: BBox;
-  }
-
-  export function addPredictedObject(objectID: number, predictedObject: PredictedObject) {
-    if (fabricRealCanvas !== undefined) {
-      const drawing = untrack(objectID);
-      if (predictedObject === null) {
-        return;
-      }
-
-      fabricRealCanvas.remove(drawing);
-      const size =
-        predictedObject.className === 'Circle'
-          ? {
-              rx: predictedObject.bbox[2] / 2,
-              ry: predictedObject.bbox[3] / 2,
-            }
-          : {
-              width: predictedObject.bbox[2],
-              height: predictedObject.bbox[3],
-            };
-      const object = new classDrawingTools[predictedObject.className]({
-        left: predictedObject.bbox[0],
-        top: predictedObject.bbox[1],
-        ...size,
-      });
-      object.stroke = brushColor;
-      object.strokeWidth = brushWidth;
-      object.fill = 'transparent';
-      fabricRealCanvas.add(object);
-    }
-  }
-
   onMount(() => {
     if (domRealCanvas === undefined || container === undefined) {
       return;
@@ -79,7 +43,7 @@
       if (object instanceof fabric.Path) {
         dispatch('object-drawn', { object, fabricCanvas: this })
       } else if (object !== undefined) {
-        object.stroke = brushColor;
+        styleWithBrush(object, this.freeDrawingBrush);
       }
     });
 

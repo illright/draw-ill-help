@@ -9,17 +9,18 @@ import {
   scaledCoordinates,
 } from '$lib/shared/bounding-box';
 import { strokeColor, backgroundColor, inputImageSize } from '$lib/shared/train-data';
+import { requestCanvasToFit } from '$lib/shared/in-memory-canvas';
 
-import { requestCanvasToFit } from './in-memory-canvas';
-import type { SingleDrawing } from '../types';
+import type { SingleDrawing } from './types';
 
 const modelInputBBox: BBox = [0, 0, inputImageSize, inputImageSize];
 
+/** Crop a given region from a canvas and resize it to the model input image size. */
 function crop(sourceCanvas: HTMLCanvasElement, sourcePosition: BBox) {
   const buffer = document.createElement('canvas');
   const targetPosition = modelInputBBox;
-  buffer.width = modelInputBBox[2];
-  buffer.height = modelInputBBox[3];
+  buffer.width = inputImageSize;
+  buffer.height = inputImageSize;
 
   const bufferContext = buffer.getContext('2d');
   if (bufferContext !== null) {
@@ -32,8 +33,15 @@ function crop(sourceCanvas: HTMLCanvasElement, sourcePosition: BBox) {
   }
 }
 
+/** Clone the object and draw it on a blank in-memory canvas. */
 export async function extractToSeparateCanvas(object: fabric.Path): Promise<SingleDrawing | null> {
-  const offScreenCanvas = requestCanvasToFit(object);
+  const objectBBox = getPathBBox(object);
+  if (objectBBox === undefined) {
+    return null;
+  }
+
+  const [objectLeft, objectTop, objectWidth, objectHeight] = objectBBox;
+  const offScreenCanvas = requestCanvasToFit(objectLeft + objectWidth, objectTop + objectHeight);
   if (offScreenCanvas === null) {
     return null;
   }
