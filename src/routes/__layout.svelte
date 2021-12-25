@@ -14,7 +14,7 @@
 </script>
 
 <svelte:head>
-  <link rel="icon" href="{basePath}/FlatColorIconsPicture.svg" type="image/svg+xml">
+  <link rel="icon" href="{basePath}/FlatColorIconsPicture.svg" type="image/svg+xml" />
 </svelte:head>
 
 <slot />

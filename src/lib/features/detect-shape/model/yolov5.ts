@@ -2,9 +2,15 @@ import type { BBox } from '$lib/shared/bounding-box';
 
 import ModelWorker from './yolov5.worker?worker';
 import { markModelAsReady } from './model-ready';
-import { modelWarmedUp, predictionFinished, predictionRequest, type PredictionRequestMessage, type MessageFromWorker } from './messages';
+import {
+  modelWarmedUp,
+  predictionFinished,
+  predictionRequest,
+  type PredictionRequestMessage,
+  type MessageFromWorker,
+} from './messages';
 import { trackPromise, resolveByID } from '../lib/promise-registry';
-import type { Prediction } from './prediction'
+import type { Prediction } from './prediction';
 
 let worker: Worker | undefined;
 

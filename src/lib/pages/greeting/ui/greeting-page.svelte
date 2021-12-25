@@ -1,5 +1,5 @@
 <script lang="ts">
-  import MenuItem from "./menu-item.svelte";
+  import MenuItem from './menu-item.svelte';
 
   import { modelReady } from '$lib/features/detect-shape';
 </script>
@@ -28,5 +28,10 @@
     </div>
   </div>
 
-  <div class="mb-8 text-center">Built with ❤️ by <a class="underline text-blue-800 hover:text-blue-700 visited:text-purple-800 visited:hover:text-purple-700" href="https://github.com/illright">@illright</a> for Innopolis&nbsp;University</div>
+  <div class="mb-8 text-center">
+    Built with ❤️ by <a
+      class="underline text-blue-800 hover:text-blue-700 visited:text-purple-800 visited:hover:text-purple-700"
+      href="https://github.com/illright">@illright</a
+    > for Innopolis&nbsp;University
+  </div>
 </main>

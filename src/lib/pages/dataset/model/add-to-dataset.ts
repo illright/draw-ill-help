@@ -10,7 +10,9 @@ export async function addToDataset(
   event: CustomEvent<CanvasEvents['object-drawn']>,
   label: SampleClass
 ): Promise<void> {
-  const { detail: { object, fabricCanvas } } = event;
+  const {
+    detail: { object, fabricCanvas },
+  } = event;
   const lastObject = await extractToSeparateCanvas(object);
   if (lastObject !== null) {
     const { imageData, bbox } = lastObject;
