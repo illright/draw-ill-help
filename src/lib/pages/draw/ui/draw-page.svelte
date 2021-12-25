@@ -13,10 +13,6 @@
   let canvas: Canvas;
   let currentTool: 'Draw' | 'Select' = 'Draw';
 
-  $: {
-    canvas?.setDrawingMode(currentTool === 'Draw');
-  }
-
   onMount(() => {
     if (canvas !== undefined) {
       onPredict(canvas.addPredictedObject);
@@ -32,6 +28,7 @@
 
 <div class="w-full h-screen relative">
   <Canvas
+    drawMode={currentTool === 'Draw'}
     bind:this={canvas}
     on:object-drawn={async ({ detail: { object, fabricOffScreen } }) => {
       const lastDrawing = await extractLastDrawing(object, fabricOffScreen);

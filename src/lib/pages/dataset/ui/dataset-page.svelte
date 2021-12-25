@@ -39,6 +39,7 @@
 
 <div class="w-full h-screen relative">
   <Canvas
+    drawMode
     on:object-drawn={addObjectToDataset}
   />
   <Toolbar>

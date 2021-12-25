@@ -15,14 +15,16 @@
   let backgroundColor = '#ffffff';
   let foregroundColor = '#000000';
 
+  export let drawMode = false;
+
   export function clear() {
     fabricRealCanvas?.clear();
     fabricRealCanvas?.setBackgroundColor(backgroundColor, () => {});
   }
 
-  export function setDrawingMode(mode: boolean) {
+  $: {
     if (fabricRealCanvas !== undefined) {
-      fabricRealCanvas.isDrawingMode = mode;
+      fabricRealCanvas.isDrawingMode = drawMode;
     }
   }
 
@@ -87,7 +89,7 @@
 
     fabricRealCanvas = new fabric.Canvas(domRealCanvas, {
       enableRetinaScaling: false,
-      isDrawingMode: true,
+      isDrawingMode: drawMode,
       backgroundColor,
     });
     fabricRealCanvas.freeDrawingBrush.width = 4;
