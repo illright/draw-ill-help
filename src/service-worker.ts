@@ -9,7 +9,7 @@ import { build, timestamp, files } from '$service-worker';
 
 /** Unique cache ID, generated at build time. */
 const cacheName = `draw-ill-help-${timestamp}`;
-const routes = ['/cvdl-project', '/cvdl-project/draw', '/cvdl-project/dataset'];
+const routes = ['/draw-ill-help', '/draw-ill-help/draw', '/draw-ill-help/dataset'];
 
 /**
  * Download the website files on initialization.
@@ -19,7 +19,6 @@ const routes = ['/cvdl-project', '/cvdl-project/draw', '/cvdl-project/dataset'];
  * if the model was fetched successfully.
  */
 async function fetchAndCacheAssets() {
-  console.log('[Service Worker] installing');
   // Make this worker the active one
   self.skipWaiting();
 
@@ -31,7 +30,6 @@ async function fetchAndCacheAssets() {
 
 /** Take down caches left over by previous versions of the service worker. */
 async function deactivateUnusedCaches() {
-  console.log('[Service Worker] activating');
   const allCaches = await caches.keys();
   const inactiveCaches = allCaches.filter((thatCacheName) => thatCacheName !== cacheName);
 

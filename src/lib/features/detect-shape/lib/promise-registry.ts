@@ -1,5 +1,7 @@
 import type { Prediction } from '../model/prediction';
 
+// TODO: wait until ESLint resolves this false positive and remove the comment
+// eslint-disable-next-line no-unused-vars
 type PredictionResolution = (prediction: Prediction | null) => void;
 
 const registry = new Map<number, PredictionResolution>();
