@@ -11,7 +11,7 @@ export const startMediaListener: StartStopNotifier<Colors> = (set) => {
   const html = document.querySelector('html');
   const darkColorsMedia = window.matchMedia('(prefers-color-scheme: dark)');
 
-  function setColorsFromRoot(e: MediaQueryListEvent) {
+  function setColorsFromRoot(e: MediaQueryList | MediaQueryListEvent) {
     if (html !== null) {
       const cssVars = getComputedStyle(html);
       const theme = e.matches ? 'dark' : 'light';
@@ -24,6 +24,7 @@ export const startMediaListener: StartStopNotifier<Colors> = (set) => {
   }
 
   darkColorsMedia.addEventListener('change', setColorsFromRoot);
+  setColorsFromRoot(darkColorsMedia);
 
   return () => {
     darkColorsMedia.removeEventListener('change', setColorsFromRoot);
