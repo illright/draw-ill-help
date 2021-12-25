@@ -1,5 +1,6 @@
 let resizeObserver: ResizeObserver | undefined = undefined;
 
+/** Get the dimensions of an observed element in a cross-browser way. */
 function getDimensions(entry: ResizeObserverEntry) {
   if (entry.contentBoxSize) {
     // Firefox implements `contentBoxSize` as a single content rect, rather than an array
@@ -12,11 +13,8 @@ function getDimensions(entry: ResizeObserverEntry) {
   }
 }
 
+/** Watch the container for size changes and resize the canvas to fit the available space. */
 export function autoResize(canvas: fabric.Canvas, container: HTMLElement): void {
-  if (resizeObserver !== undefined) {
-    resizeObserver.disconnect();
-  }
-
   resizeObserver = new ResizeObserver((entries) => {
     for (const entry of entries) {
       const dimensions = getDimensions(entry);
@@ -26,6 +24,8 @@ export function autoResize(canvas: fabric.Canvas, container: HTMLElement): void 
   resizeObserver.observe(container);
 }
 
+/** Stop watching the container for size changes. */
 export function stopAutoResizing(): void {
   resizeObserver?.disconnect();
+  resizeObserver = undefined;
 }
