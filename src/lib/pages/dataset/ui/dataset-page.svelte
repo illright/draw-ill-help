@@ -16,6 +16,7 @@
     addImage,
     type SampleClass,
   } from '$lib/features/generate-dataset';
+  import { colors } from '$lib/features/dark-mode';
 
   let currentTool: SampleClass = 'Circle';
 
@@ -40,6 +41,8 @@
 <div class="w-full h-screen relative">
   <Canvas
     drawMode
+    backgroundColor={$colors.background}
+    brushColor={$colors.foreground}
     on:object-drawn={addObjectToDataset}
   />
   <Toolbar>

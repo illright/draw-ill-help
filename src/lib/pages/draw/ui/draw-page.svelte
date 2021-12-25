@@ -9,6 +9,7 @@
   import { Canvas, extractLastDrawing } from '$lib/widgets/canvas';
   import { Toolbar, Tool, Action } from '$lib/widgets/toolbar';
   import { detector, onPredict, unsubscribe, track } from '$lib/features/detect-shape';
+  import { colors } from '$lib/features/dark-mode';
 
   let canvas: Canvas;
   let currentTool: 'Draw' | 'Select' = 'Draw';
@@ -28,6 +29,8 @@
 
 <div class="w-full h-screen relative">
   <Canvas
+    backgroundColor={$colors.background}
+    brushColor={$colors.foreground}
     drawMode={currentTool === 'Draw'}
     bind:this={canvas}
     on:object-drawn={async ({ detail: { object, fabricOffScreen } }) => {
