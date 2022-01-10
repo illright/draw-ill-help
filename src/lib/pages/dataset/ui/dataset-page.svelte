@@ -9,9 +9,12 @@
 
   import { Canvas } from '$lib/widgets/canvas';
   import { Toolbar, Tool, Action } from '$lib/widgets/toolbar';
-  import { dataset, downloadDataset, removeLastImage } from '$lib/features/generate-dataset';
-  // TODO: merge with the import above when ESLint starts supporting this TS syntax
-  import type { SampleClass } from '$lib/features/generate-dataset';
+  import {
+    dataset,
+    downloadDataset,
+    removeLastImage,
+    type SampleClass,
+  } from '$lib/features/generate-dataset';
   import { colors } from '$lib/features/dark-mode';
 
   import { addToDataset } from '../model/add-to-dataset';
