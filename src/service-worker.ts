@@ -8,8 +8,9 @@ declare const self: ServiceWorkerGlobalScope & typeof globalThis;
 import { build, timestamp, files } from '$service-worker';
 
 /** Unique cache ID, generated at build time. */
-const cacheName = `draw-ill-help-${timestamp}`;
-const routes = ['/draw-ill-help', '/draw-ill-help/draw', '/draw-ill-help/dataset'];
+const cachePrefix = 'draw-ill-help';
+const cacheName = `${cachePrefix}-${timestamp}`;
+const routes = ['/', '/draw', '/dataset'].map((route) => vite.define.basePath + route);
 
 /**
  * Download the website files on initialization.
@@ -33,9 +34,9 @@ async function deactivateUnusedCaches() {
   const allCaches = await caches.keys();
   const inactiveCaches = allCaches.filter((thatCacheName) => thatCacheName !== cacheName);
 
-  const deletionPromises: Promise<boolean | void>[] = inactiveCaches.map((thatCacheName) =>
-    caches.delete(thatCacheName)
-  );
+  const deletionPromises: Promise<boolean | void>[] = inactiveCaches
+    .filter((thatCacheName) => thatCacheName.startsWith(cachePrefix))
+    .map((thatCacheName) => caches.delete(thatCacheName));
   return Promise.all(deletionPromises.concat([self.clients.claim()]));
 }
 
