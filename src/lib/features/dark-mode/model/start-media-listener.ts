@@ -11,14 +11,13 @@ export const startMediaListener: StartStopNotifier<Colors> = (set) => {
   const html = document.querySelector('html');
   const darkColorsMedia = window.matchMedia('(prefers-color-scheme: dark)');
 
-  function setColorsFromRoot(e: MediaQueryList | MediaQueryListEvent) {
+  function setColorsFromRoot(_e: MediaQueryList | MediaQueryListEvent) {
     if (html !== null) {
       const cssVars = getComputedStyle(html);
-      const theme = e.matches ? 'dark' : 'light';
 
       set({
-        background: cssVars.getPropertyValue(`--canvas-${theme}-bg`),
-        foreground: cssVars.getPropertyValue(`--canvas-${theme}-fg`),
+        background: cssVars.getPropertyValue('--background'),
+        foreground: cssVars.getPropertyValue('--on-background'),
       });
     }
   }
