@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "scripts": {
     "dev": "svelte-kit dev",
-    "build": "svelte-kit build && sed -i 's/\\/service-worker\\.js/\\/draw-ill-help\\/service-worker.js/g' build/index.html build/**/index.html",
+    "build": "svelte-kit build",
     "preview": "svelte-kit preview",
     "lint": "prettier --check --plugin-search-dir=. . && eslint --cache . && svelte-check --tsconfig ./tsconfig.json",
     "lint-fix": "prettier --write --plugin-search-dir=. . && eslint --cache . --fix",
