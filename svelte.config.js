@@ -1,37 +1,13 @@
-import path from 'path';
-import { cwd } from 'process';
-
-import preprocess from 'svelte-preprocess';
-import Icons from 'unplugin-icons/vite';
 import adapterStatic from '@sveltejs/adapter-static';
-
-const dev = process.env.NODE_ENV === 'development';
-const repositoryName = path.basename(cwd());
-const base = dev ? '' : `/${repositoryName}`;
+import { vitePreprocess } from '@sveltejs/kit/vite';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-  preprocess: [
-    preprocess({
-      postcss: true,
-    }),
-  ],
+	preprocess: vitePreprocess(),
 
-  kit: {
-    paths: { base },
-    target: 'body',
-    adapter: adapterStatic(),
-    vite: {
-      define: {
-        'vite.define.basePath': JSON.stringify(base),
-      },
-      plugins: [
-        Icons({
-          compiler: 'svelte',
-        }),
-      ],
-    },
-  },
+	kit: {
+		adapter: adapterStatic(),
+	},
 };
 
 export default config;

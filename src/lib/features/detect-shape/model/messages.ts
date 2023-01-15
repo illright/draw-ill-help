@@ -12,27 +12,27 @@ export const terminationRequest = 'termination-request';
 
 /** Notification about the model being ready for predictions. */
 export interface ModelWarmedUpMessage {
-  type: typeof modelWarmedUp;
+	type: typeof modelWarmedUp;
 }
 
 /** A result of a previously submitted prediction request. */
 export interface PredictionFinishedMessage {
-  type: typeof predictionFinished;
-  prediction: Prediction | null;
-  promiseID: number;
+	type: typeof predictionFinished;
+	prediction: Prediction | null;
+	promiseID: number;
 }
 
 /** A prediction request from given image data. */
 export interface PredictionRequestMessage {
-  type: typeof predictionRequest;
-  promiseID: number;
-  image: ImageData;
-  regionBBox: BBox;
+	type: typeof predictionRequest;
+	promiseID: number;
+	image: ImageData;
+	regionBBox: BBox;
 }
 
 /** A request for the worker to terminate itself.  */
 export interface TerminationRequestMessage {
-  type: typeof terminationRequest;
+	type: typeof terminationRequest;
 }
 
 export type MessageFromWorker = ModelWarmedUpMessage | PredictionFinishedMessage;

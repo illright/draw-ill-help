@@ -7,11 +7,11 @@ const imageChannels = 3;
 
 /** Warm up a model by running it through a tensor of zeros. */
 export async function warmUp(model: GraphModel): Promise<GraphModel> {
-  const sampleInput = zeros([imagesInBatch, inputImageSize, inputImageSize, imageChannels]);
-  const output = await model.executeAsync(sampleInput);
+	const sampleInput = zeros([imagesInBatch, inputImageSize, inputImageSize, imageChannels]);
+	const output = await model.executeAsync(sampleInput);
 
-  sampleInput.dispose();
-  dispose(output);
+	sampleInput.dispose();
+	dispose(output);
 
-  return model;
+	return model;
 }
