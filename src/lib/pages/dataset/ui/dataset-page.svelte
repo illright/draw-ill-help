@@ -17,7 +17,7 @@
   } from '$lib/features/generate-dataset';
   import { colors } from '$lib/features/dark-mode';
 
-  import { addToDataset } from '../model/add-to-dataset';
+  import { addToDataset } from '../lib/add-to-dataset';
 
   let currentTool: SampleClass = 'Circle';
 </script>

@@ -1,1 +1,1 @@
-export { requestCanvasToFit, discardInMemoryCanvas } from './model/in-memory-canvas';
+export { requestCanvasToFit, discardInMemoryCanvas } from './lib/in-memory-canvas';

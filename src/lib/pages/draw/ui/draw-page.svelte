@@ -9,7 +9,7 @@
   import { Toolbar, Tool, Action } from '$lib/widgets/toolbar';
   import { colors } from '$lib/features/dark-mode';
 
-  import { tryToCorrect } from '../model/try-to-correct';
+  import { tryToCorrect } from '../lib/try-to-correct';
 
   let canvas: Canvas;
   let currentTool: 'Draw' | 'Select' = 'Draw';

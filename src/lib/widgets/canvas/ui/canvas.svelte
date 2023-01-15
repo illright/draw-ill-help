@@ -10,7 +10,7 @@
     syncBrushColor,
     syncBrushWidth,
     syncDrawingMode,
-  } from '../model/synchronize-fabric';
+  } from '../lib/synchronize-fabric';
   import type { CanvasEvents } from './canvas-events';
 
   let container: HTMLDivElement | undefined;

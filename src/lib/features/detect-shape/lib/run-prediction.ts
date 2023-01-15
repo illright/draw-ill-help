@@ -2,9 +2,9 @@ import { dispose, browser, type Tensor, type GraphModel } from '@tensorflow/tfjs
 
 import type { RelativeBBox } from '$lib/shared/bounding-box';
 
-import type { PredictionRequestMessage } from './messages';
-import { preprocessInput, postprocessOutput } from '../lib/model-adapter';
-import type { Prediction } from './prediction';
+import type { PredictionRequestMessage } from '../model/messages';
+import { preprocessInput, postprocessOutput } from './model-adapter';
+import type { Prediction } from '../model/prediction';
 
 const confidenceThreshold = 0.67;
 

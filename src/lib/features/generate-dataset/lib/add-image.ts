@@ -1,7 +1,7 @@
 import type { BBox } from '$lib/shared/bounding-box';
 
-import { dataset } from './dataset';
-import type { SampleClass } from './type';
+import { dataset } from '../model/dataset';
+import type { SampleClass } from '../model/type';
 
 /** Save the canvas as a blob with a preliminary annotation to the global dataset in memory. */
 export async function addImage(
