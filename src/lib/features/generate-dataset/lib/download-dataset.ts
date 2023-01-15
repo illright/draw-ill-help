@@ -2,8 +2,8 @@ import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import { get } from 'svelte/store';
 
-import { dataset } from './dataset';
-import type { Sample, SampleClass } from './type';
+import { dataset } from '../model/dataset';
+import type { Sample, SampleClass } from '../model/type';
 
 /**
  * The annotation format of Supervisely.

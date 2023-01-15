@@ -1,6 +1,6 @@
 import { readable } from 'svelte/store';
 
-import { startMediaListener } from './start-media-listener';
+import { startMediaListener } from '../lib/start-media-listener';
 import type { Colors } from '../types';
 
 export const colors = readable<Colors>(
