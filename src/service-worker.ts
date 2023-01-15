@@ -1,15 +1,18 @@
 // TypeScript hacks to enable correct typings for the service worker
 //   Track the open issue here: https://github.com/microsoft/TypeScript/issues/11781
 /// <reference no-default-lib="true"/>
-/// <reference lib="es2020" />
+/// <reference lib="esnext" />
 /// <reference lib="WebWorker" />
+
 declare const self: ServiceWorkerGlobalScope & typeof globalThis;
 
-import { build, timestamp, files } from '$service-worker';
+import { build, version, files } from '$service-worker';
+
+declare const vite: { define: Record<string, string> };
 
 /** Unique cache ID, generated at build time. */
 const cachePrefix = 'draw-ill-help';
-const cacheName = `${cachePrefix}-${timestamp}`;
+const cacheName = `${cachePrefix}-${version}`;
 const routes = ['/', '/draw', '/dataset'].map((route) => vite.define.basePath + route);
 
 /**
@@ -20,24 +23,24 @@ const routes = ['/', '/draw', '/dataset'].map((route) => vite.define.basePath + 
  * if the model was fetched successfully.
  */
 async function fetchAndCacheAssets() {
-  // Make this worker the active one
-  self.skipWaiting();
+	// Make this worker the active one
+	self.skipWaiting();
 
-  const cache = await caches.open(cacheName);
+	const cache = await caches.open(cacheName);
 
-  cache.addAll(files.filter((name) => !name.endsWith('.nojekyll')));
-  return cache.addAll(build.concat(routes));
+	cache.addAll(files.filter((name) => !name.endsWith('.nojekyll')));
+	return cache.addAll(build.concat(routes));
 }
 
 /** Take down caches left over by previous versions of the service worker. */
 async function deactivateUnusedCaches() {
-  const allCaches = await caches.keys();
-  const inactiveCaches = allCaches.filter((thatCacheName) => thatCacheName !== cacheName);
+	const allCaches = await caches.keys();
+	const inactiveCaches = allCaches.filter((thatCacheName) => thatCacheName !== cacheName);
 
-  const deletionPromises: Promise<boolean | void>[] = inactiveCaches
-    .filter((thatCacheName) => thatCacheName.startsWith(cachePrefix))
-    .map((thatCacheName) => caches.delete(thatCacheName));
-  return Promise.all(deletionPromises.concat([self.clients.claim()]));
+	const deletionPromises: Promise<boolean | void>[] = inactiveCaches
+		.filter((thatCacheName) => thatCacheName.startsWith(cachePrefix))
+		.map((thatCacheName) => caches.delete(thatCacheName));
+	return Promise.all(deletionPromises.concat([self.clients.claim()]));
 }
 
 /**
@@ -47,17 +50,17 @@ async function deactivateUnusedCaches() {
  * but they failed to be cached, cache them now.
  */
 async function readFromCacheOrFetch(request: Request) {
-  const cachedResponse = await caches.match(request);
+	const cachedResponse = await caches.match(request);
 
-  if (cachedResponse !== undefined) {
-    return cachedResponse;
-  } else {
-    const networkResponsePromise = fetch(request);
-    const cache = await caches.open(cacheName);
-    const networkResponse = await networkResponsePromise;
-    cache.put(request, networkResponse.clone());
-    return networkResponse;
-  }
+	if (cachedResponse !== undefined) {
+		return cachedResponse;
+	} else {
+		const networkResponsePromise = fetch(request);
+		const cache = await caches.open(cacheName);
+		const networkResponse = await networkResponsePromise;
+		cache.put(request, networkResponse.clone());
+		return networkResponse;
+	}
 }
 
 self.addEventListener('install', (event) => event.waitUntil(fetchAndCacheAssets()));

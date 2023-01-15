@@ -7,16 +7,16 @@ const timeoutBeforeExtraction = 500;
 
 /** Add a drawing to the dataset and remove it from the canvas. */
 export async function addToDataset(
-  event: CustomEvent<CanvasEvents['object-drawn']>,
-  label: SampleClass
+	event: CustomEvent<CanvasEvents['object-drawn']>,
+	label: SampleClass
 ): Promise<void> {
-  const {
-    detail: { object, fabricCanvas },
-  } = event;
-  const lastObject = await extractToSeparateCanvas(object);
-  if (lastObject !== null) {
-    const { imageData, bbox } = lastObject;
-    addImage(imageData, bbox, label);
-    setTimeout(() => fabricCanvas.remove(object), timeoutBeforeExtraction);
-  }
+	const {
+		detail: { object, fabricCanvas },
+	} = event;
+	const lastObject = await extractToSeparateCanvas(object);
+	if (lastObject !== null) {
+		const { imageData, bbox } = lastObject;
+		addImage(imageData, bbox, label);
+		setTimeout(() => fabricCanvas.remove(object), timeoutBeforeExtraction);
+	}
 }
