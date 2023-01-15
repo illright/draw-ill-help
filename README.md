@@ -11,7 +11,7 @@ Check it out at <https://illright.github.io/draw-ill-help>.
 - 🧠 Runs YOLOv5 Nano in the background
 - 🗃️ Built-in dataset generator
 - 😎 Automatic dark mode
-- 🍰 Follows the [feature-sliced methodology](https://feature-sliced.design/)
+- 🍰 Follows the principles of [Feature-Sliced Design](https://feature-sliced.design/)
 
 ## Screenshots
 
